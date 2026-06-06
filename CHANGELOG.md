@@ -3,6 +3,14 @@
 All notable changes to the pottery → Norwegian PDF pipeline. Newest first.
 Versions track the scaffold iterations; all dated 2026-06-06 (built in one session).
 
+## v22 — 2026-06-06
+### Changed
+- Rewrote README with a detailed "How it works" section explaining each agent
+  (extractor, crop, illustrator, translator, layout-builder, layout-qc, qa-reviewer)
+  and the end-to-end process. Corrected stale claims (translated title, always-
+  regenerate with no original fallback, key required, white backgrounds, metric
+  conversion, glossary removed) and added the PowerShell/settings.json setup step.
+
 ## v21 — 2026-06-06
 ### Changed
 - Dropped the "header stays English" rule. The title is now translated to Bokmål
