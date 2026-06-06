@@ -3,6 +3,13 @@
 All notable changes to the pottery → Norwegian PDF pipeline. Newest first.
 Versions track the scaffold iterations; all dated 2026-06-06 (built in one session).
 
+## v14 — 2026-06-06
+### Added
+- Style-match gate in qa-reviewer: the anchor is now an input, and each `_v2.png` is
+  checked against the anchor's medium and palette. Figures that come back as flat
+  line-art, white/transparent background, or wrong tone are flagged and remade.
+  Closes the gap where a figure could be content-accurate but in the wrong style.
+
 ## v13 — 2026-06-06
 ### Removed
 - The Norwegian ceramics glossary. The translator is Claude, which already knows the
