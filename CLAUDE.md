@@ -40,15 +40,34 @@ background. No text, no letters, no numbers, no labels, no border, no frame."
 - Titles / headers: "Fraunces" (warm, characterful)
 - Body / bullets / labels: "Nunito" (clean), system-ui fallback
 
-## Two figure types (the illustrator decides per crop, from extractor flags)
-- **Decorative / illustrative** (`label_critical: false`): redraw freely in the
-  house style. Low risk. Match the style anchor for look.
-- **Label-critical** (`label_critical: true`): the exact composition carries the
-  instruction (e.g. the coil-pot bands each leader line points to; the
-  wheel-throwing stage figures that must show clay at the correct stage). Redraw
-  ONLY with the crop's `preserve` list honored exactly — same elements, counts,
-  order, arrangement, orientation. QA is strict; if anything drifts, fall back to
-  the original crop. A correct plain drawing always beats a pretty wrong one.
+The palette and fonts above are implemented once in `styles\page.css`; the
+layout-builder links that file and never hardcodes colors, fonts, or spacing, so
+every page is identical in style.
+
+## Figure policy (every figure is remade)
+Every figure is restyled into the house look by repainting the original crop with
+gpt-image-2 (Image 1 = the crop = ground truth for WHAT is drawn; Image 2 =
+`style\anchor.png` = HOW it looks). It is a restyle, never a new invention. The
+extractor flags how strict to be:
+- **Decorative / illustrative** (`label_critical: false`): restyle freely; keep the
+  same subject and any meaningful counts. quality `medium`.
+- **Label-critical** (`label_critical: true`): the `preserve` list is law — same
+  elements, counts, order, arrangement, orientation. quality `high`. Content
+  fidelity beats stylistic match; if the anchor pulls the composition off, weight
+  the prompt toward Image 1 or drop the style ref for that figure.
+
+Figure size matches the source automatically: illustrate.py reads each crop and
+picks a gpt-image-2 size with the same aspect ratio, so figures are never
+distorted or padded.
+
+Figures are REUSED across runs: an existing `_v2.png` is kept unless `/rebuild`
+is given `remake-art` or the qa-reviewer flags that figure. This preserves the
+approved look and avoids re-charging the image API every run.
+
+If qa-reviewer judges a remade figure inaccurate vs the original, the illustrator
+REMAKES it (retry, high quality, tighter preserve, up to 2 times). The original
+crop is used only as a last resort if retries still fail — the goal is an accurate
+figure in the new style, not a fallback.
 
 ## Style anchor (locks the whole set to one look)
 A single approved reference image at `style\anchor.png` defines the look. The
@@ -64,6 +83,8 @@ gpt-image-2 has no transparent background, so figures render on warm cream.
 
 ## Folder layout (project root = D:\pottery)
 - Source images at the **project root**: `*.jpg`, `*.jpeg`, `*.png`.
+- `styles\page.css` — the SHARED stylesheet every page links (palette, fonts,
+  spacing, layout classes). The page look is defined here, not per page.
 - `style\anchor.png` — the approved style reference (plus `anchor_*.png` candidates).
 - `work\<stem>\` — `extract.json`, `translated.json`, `crops\` (with `_v2.png`
   reimagined versions), `page.html`, `page.png`, `qa.md`.
@@ -97,6 +118,7 @@ The main session is the orchestrator. Run `/rebuild` to process the folder.
 - `/rebuild` → all pending root images, minus `ignore.txt`.
 - `/rebuild <name...>` → only those, forced.
 - `/rebuild all` → full refresh.
+- `/rebuild <name…> remake-art` → also regenerate figures (otherwise reused).
 - `/status` → done/pending, QA result, ignored.
 - `/style-anchor` → generate style candidates to choose from.
 

@@ -34,7 +34,10 @@ def main():
     url = in_html.as_uri()
     with sync_playwright() as p:
         browser = p.chromium.launch()
-        context = browser.new_context(device_scale_factor=2)  # crisp PNG for layout QC
+        context = browser.new_context(
+            viewport={"width": 794, "height": 1123},  # A4 at 96dpi
+            device_scale_factor=2,                      # crisp PNG for layout QC
+        )
         page = context.new_page()
         page.goto(url, wait_until="networkidle")
         page.pdf(
