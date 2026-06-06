@@ -19,10 +19,11 @@ with # as a filename to skip (applies to the no-arg run only).
 For each selected image, in order, following CLAUDE.md:
 1. Delegate to the extractor subagent → work\<stem>\extract.json.
 2. Run: python scripts\crop.py <image> work\<stem>\crops work\<stem>\extract.json
-3. Delegate to the illustrator subagent → restyles crops → _v2.png candidates
-   (uses style\anchor.png if present; no OPENAI_API_KEY → it reports and the
-   layout-builder uses originals). REUSE existing _v2.png by default; only remake
-   art if $ARGUMENTS contains `remake-art` (or qa-reviewer flags a figure).
+3. Delegate to the illustrator subagent → it regenerates a fresh _v2.png for EVERY
+   crop from its original (img2img restyle), using style\anchor.png if present.
+   Default is ALWAYS regenerate. If $ARGUMENTS contains `keep-art`, reuse existing
+   _v2.png instead (to save cost once a set is approved). If illustrate.py errors
+   (e.g. missing OPENAI_API_KEY), STOP and report — never fall back to originals.
 4. Delegate to the translator subagent → work\<stem>\translated.json.
 5. Delegate to the layout-builder subagent → output\<stem>.pdf + page.png.
 6. Delegate to the layout-qc subagent (visual/typography) → work\<stem>\qa_layout.md.
@@ -32,7 +33,8 @@ For each selected image, in order, following CLAUDE.md:
 8. If qa-reviewer FAILs, apply fixes and redo from the failed step (max 2 retries).
    If it rejected a reimagined figure as inaccurate, send that figure back to the
    illustrator to REMAKE (retry, high quality, tighter preserve) up to 2 times;
-   only if that still fails, rebuild it with the original crop.
+   if it still fails, leave qa as FAIL and surface the figure to the user — never
+   substitute the original crop into the page.
 
 Independent images may be processed in parallel, but keep each image's stages in
 sequence. When done, print a summary table:

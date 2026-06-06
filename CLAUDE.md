@@ -56,26 +56,31 @@ extractor flags how strict to be:
   fidelity beats stylistic match; if the anchor pulls the composition off, weight
   the prompt toward Image 1 or drop the style ref for that figure.
 
-Figure size matches the source automatically: illustrate.py reads each crop and
-picks a gpt-image-2 size with the same aspect ratio, so figures are never
-distorted or padded.
+The original crop is ONLY the input/reference to the image model (img2img). It is
+NEVER used as an output figure. Every figure on every page is a model-made
+`_v2.png` restyle of its original crop.
 
-Figures are REUSED across runs: an existing `_v2.png` is kept unless `/rebuild`
-is given `remake-art` or the qa-reviewer flags that figure. This preserves the
-approved look and avoids re-charging the image API every run.
+ALWAYS regenerate: each `/rebuild` makes a fresh `_v2.png` for every crop. There is
+no "use the original instead" path. If a generation fails (missing key, org not
+verified, rate limit), the run STOPS and reports the error — it must be fixed, not
+hidden behind the original. (Opt-in only: `/rebuild <name> keep-art` reuses existing
+`_v2.png` to save cost once you have approved a set.)
+
+Figure size matches the source automatically: illustrate.py reads each crop and
+picks a gpt-image-2 size with the same aspect ratio, so figures are never distorted.
 
 If qa-reviewer judges a remade figure inaccurate vs the original, the illustrator
-REMAKES it (retry, high quality, tighter preserve, up to 2 times). The original
-crop is used only as a last resort if retries still fail — the goal is an accurate
-figure in the new style, not a fallback.
+REMAKES it (retry, high quality, tighter preserve, up to 2 times). If it still
+fails, the page is left FLAGGED for review — the original is never substituted.
 
 ## Style anchor (locks the whole set to one look)
 A single approved reference image at `style\anchor.png` defines the look. The
 illustrator passes it to gpt-image-2 as a second reference on every call, so all
 figures share one hand. Create/choose it once with `/style-anchor` (generates
 candidates → you copy your favorite to `style\anchor.png`). If `style\anchor.png`
-is absent, the illustrator still applies the ART DIRECTION text (less locked); if
-no `OPENAI_API_KEY`, it falls back to the original crops.
+is absent, the illustrator still applies the ART DIRECTION text (less locked).
+`OPENAI_API_KEY` is REQUIRED — without it the run stops with an error rather than
+producing un-styled original crops.
 
 Image generation uses **gpt-image-2** via `scripts\illustrate.py`. Requires
 `OPENAI_API_KEY`; gpt-image-2 is gated behind OpenAI Organization Verification.
@@ -118,7 +123,8 @@ The main session is the orchestrator. Run `/rebuild` to process the folder.
 - `/rebuild` → all pending root images, minus `ignore.txt`.
 - `/rebuild <name...>` → only those, forced.
 - `/rebuild all` → full refresh.
-- `/rebuild <name…> remake-art` → also regenerate figures (otherwise reused).
+- `/rebuild <name…> keep-art` → reuse existing figures instead of regenerating
+  (default is to regenerate every figure).
 - `/status` → done/pending, QA result, ignored.
 - `/style-anchor` → generate style candidates to choose from.
 

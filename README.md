@@ -46,10 +46,6 @@ ceramics glossary — lives in [`CLAUDE.md`](CLAUDE.md).
 - `OPENAI_API_KEY` in the environment, for figure reimagining via **gpt-image-2**
   (requires OpenAI Organization Verification). Reimagining is optional — without a
   key the pipeline runs and keeps the original drawings.
-  
-- Copy `.claude/settings.json.example` to `.claude/settings.json` and replace
-   sk-REPLACE_ME with your OpenAI API key (this file is gitignored).
-   On Windows PowerShell: Copy-Item .claude/settings.json.example .claude/settings.json
 
 ## Usage
 

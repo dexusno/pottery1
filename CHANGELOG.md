@@ -4,13 +4,19 @@ All notable changes to the pottery → Norwegian PDF pipeline. Newest first.
 Versions track the scaffold iterations; all dated 2026-06-06 (built in one session).
 
 ## v9 — 2026-06-06
+### Changed
+- Image step is now ALWAYS regenerate: every figure is remade from its original
+  crop via gpt-image-2 on every run. Removed all "use the original instead" paths
+  — the original crop is only the model's input/reference, never an output figure.
+- Reuse is now opt-in (`/rebuild <name> keep-art`) instead of the default, so stale
+  figures are never served silently. (Replaces the old `remake-art` flag.)
+- Generation failures are loud: a missing OPENAI_API_KEY (or org/rate-limit error)
+  STOPS the run and reports it, rather than falling back to un-styled originals.
+- qa-reviewer / layout-builder: an inaccurate figure is remade (retried); if it
+  still fails it is FLAGGED for review — the original is never substituted.
 ### Added
-- `.claude/settings.json.example`: template that sets PowerShell as the default
-  shell (`defaultShell: powershell`, `CLAUDE_CODE_USE_POWERSHELL_TOOL=1`) and holds
-  a placeholder OPENAI_API_KEY. Copy to `.claude/settings.json` and add your key.
-### Security
-- `.claude/settings.json` and `.claude/settings.local.json` are gitignored so no
-  real key reaches the repo.
+- `.claude/settings.json.example` + PowerShell default shell config; real
+  `.claude/settings.json` is gitignored (key supplied via user settings).
 
 ## v8 — 2026-06-06
 ### Added

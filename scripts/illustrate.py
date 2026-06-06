@@ -77,7 +77,11 @@ def main():
         quality, rest = pop_flag(rest, "--quality", "medium")
         prompt, out_path = rest[0], Path(rest[1])
         size = rest[2] if len(rest) > 2 else "1024x1024"
-        resp = client.images.generate(model="gpt-image-2", prompt=prompt, size=size, quality=quality)
+        try:
+            resp = client.images.generate(model="gpt-image-2", prompt=prompt, size=size, quality=quality)
+        except Exception as e:
+            print(f"GENERATION FAILED (generate): {e}")
+            sys.exit(1)
         write_b64(resp.data[0], out_path)
         print(f"generated -> {out_path}  (size={size}, quality={quality})")
         return
@@ -97,7 +101,11 @@ def main():
         files.append(open(style_ref, "rb"))
     image_arg = files if len(files) > 1 else files[0]
 
-    resp = client.images.edit(model="gpt-image-2", image=image_arg, prompt=prompt, size=size, quality=quality)
+    try:
+        resp = client.images.edit(model="gpt-image-2", image=image_arg, prompt=prompt, size=size, quality=quality)
+    except Exception as e:
+        print(f"GENERATION FAILED (edit): {e}")
+        sys.exit(1)
     write_b64(resp.data[0], out_path)
     for f in files:
         f.close()

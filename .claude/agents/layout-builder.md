@@ -9,8 +9,9 @@ You rebuild one course sheet as an A4 page that matches every other page in the
 set, then render it.
 
 Inputs: `work\<stem>\translated.json`, `work\<stem>\extract.json`, the source
-image, and `work\<stem>\crops\` (prefer `<name>_v2.png` over `<name>.png` unless QA
-rejected it).
+image, and `work\<stem>\crops\`. ALWAYS embed the remade `<name>_v2.png` for every
+figure — never the original `<name>.png`. If a `_v2.png` is missing, STOP and report
+it (the illustrator should have made one); do not substitute the original crop.
 
 Build `work\<stem>\page.html`:
 - Link the SHARED stylesheet, do not invent your own styles:

@@ -35,8 +35,9 @@ Check:
    - `label_critical: true` → the `preserve` list is law: every element, count,
      order, arrangement, and orientation must match exactly. Any drift, addition,
      omission, or reorder → FAIL; the illustrator must REMAKE the figure (retry,
-     high quality, tighter constraints), falling back to the original `<name>.png`
-     only after retries fail.
+     high quality, tighter constraints). If it still fails after retries, keep
+     RESULT: FAIL and flag the figure for the user — NEVER substitute the original
+     crop into the page.
    - `label_critical: false` → FAIL if the figure changes, adds, or drops anything
      meaningful (not just a clear subject swap) — e.g. a 3-handled pot drawn with
      2 handles, a skull redrawn as something else, a slab shown as a block.

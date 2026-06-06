@@ -28,12 +28,12 @@ change+preserve split and restate the preserve list every time):
     background, centered. Sharp, high-fidelity, every element distinct and
     correctly placed."
 
-REUSE: if `work\<stem>\crops\<name>_v2.png` already exists, KEEP it and skip
-regeneration — unless this run was told to remake art (the orchestrator passes
-that through) or the qa-reviewer flagged that figure. This preserves the approved
-look and avoids re-charging the API on every run.
+ALWAYS regenerate. Make a fresh `_v2.png` for EVERY crop on every run by calling
+the image model — do not skip a crop because a `_v2.png` already exists, and never
+copy or substitute the original crop as the output. (Only exception: if this run
+was given `keep-art`, reuse existing `_v2.png` to save cost.)
 
-Run for each crop that needs (re)making:
+Run for each crop:
   `python scripts\illustrate.py work\<stem>\crops\<name>.png work\<stem>\crops\<name>_v2.png "<prompt>" --style-ref style\anchor.png --quality <q>`
 - `<q>` = `high` for `label_critical: true`, else `medium`.
 - Do NOT pass a size — illustrate.py reads the crop and matches its aspect ratio
@@ -47,10 +47,12 @@ Image 1 (or drop `--style-ref` for that figure and rely on the ART DIRECTION tex
 
 RETRY: if the qa-reviewer reports a figure as inaccurate, regenerate THAT figure
 with `--quality high`, an even more explicit preserve list, and (if needed) without
-the style ref. Up to 2 retries. Only after that, tell the layout-builder to fall
-back to the original crop for that one figure.
+the style ref. Up to 2 retries. If it STILL fails, report that figure as failed and
+leave it for the user to review — do NOT substitute the original crop into the page.
 
-If `scripts\illustrate.py` errors (no key, org not verified), STOP, report it, and
-tell the layout-builder to use the original crops.
+FAILURES ARE LOUD: if `scripts\illustrate.py` errors (missing key, org not verified,
+rate limit, etc.), STOP the run and report the exact error. Do NOT fall back to the
+original crops and do NOT continue silently — the goal is always a model-made figure,
+so a failure must be fixed (usually the OPENAI_API_KEY), not hidden.
 
 Report each crop: quality used, whether the style ref was used, and the prompt.
