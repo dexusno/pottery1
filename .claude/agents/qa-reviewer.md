@@ -17,11 +17,11 @@ Fail on any clear violation:
 2. **Translation** — Bokmål reads naturally; ceramics terms are correct. (Text
    inside a figure stays in the original language, matching the source.)
 3. **Figures (content)** — each remade figure depicts the SAME content as its
-   original: same objects, counts, action/stage, arrangement, orientation, AND every
-   small, background, or decorative element. Flag any element added or dropped, even
-   decorative ones. For parallel/paired figures, the set must be consistent with the
-   original (neither panel gains or loses elements the other keeps). `label_critical`
-   figures must match the `preserve` list exactly.
+   original: same objects, counts, action/stage, arrangement, and orientation, with
+   elements at the same visual weight. Flag elements that are added, dropped, or
+   over-emphasized/enlarged vs the original, and any scene that was split into
+   separate figures or invented pieces. `label_critical` figures must match the
+   `preserve` list exactly.
    - **Figure text is EXPECTED:** if the original figure contains text, the remake
      should reproduce it. Text that matches the original is correct — do NOT flag it
      as "added" or "invented." Only flag figure text that is NOT in the original

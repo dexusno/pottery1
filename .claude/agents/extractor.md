@@ -32,10 +32,10 @@ Write `work/<stem>/extract.json`:
   verbatim. Omit or use [] if the figure has no text.
 - `label_critical`: true when the figure's exact composition carries the
   instruction (labels point at specific parts, or it shows a specific stage/step).
-- `preserve`: every element that must survive a restyle, in order — INCLUDING small,
-  background, and decorative items, plus any text.
-  Be exhaustive if label_critical; list the subject plus all such extras otherwise.
-- For parallel/paired figures, crop them symmetrically so each captures the same
-  kinds of surrounding elements — don't let one panel keep elements the other drops.
+- `preserve`: the elements that must survive a restyle, in order. Be exhaustive if
+  label_critical; otherwise list the subject and any details that carry meaning.
+- Crop a coherent scene as ONE figure — keep elements that belong together (e.g. an
+  action and the object it acts on) in the same crop; don't split them into separate
+  figures or invent missing pieces.
 - `keep_english: true` only on the main title.
 Write only the JSON; report the path and a one-line summary.

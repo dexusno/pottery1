@@ -3,6 +3,17 @@
 All notable changes to the pottery → Norwegian PDF pipeline. Newest first.
 Versions track the scaffold iterations; all dated 2026-06-06 (built in one session).
 
+## v19 — 2026-06-06
+### Fixed
+- Walked back the v15 element-preservation overcorrection that was forcing/emphasizing
+  decorations and splitting scenes. Rules are now balanced: reproduce the original
+  faithfully, keeping the same elements at the same visual weight — add nothing, drop
+  nothing, enlarge/emphasize nothing.
+- Extractor now crops a coherent scene as ONE figure (keeps an action and the object
+  it acts on together) instead of splitting them into separate panels or inventing
+  pieces. Removed the symmetric-crop rule that drove the over-segmentation.
+- qa-reviewer now also flags over-emphasized elements and split/invented scenes.
+
 ## v18 — 2026-06-06
 ### Fixed
 - qa-reviewer was false-failing figures for "invented English text." There was no

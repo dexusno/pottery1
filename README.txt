@@ -1,4 +1,3 @@
-POTTERY -> NORWEGIAN PDF — scaffold (v18)
-v18: qa-reviewer no longer false-fails figures that keep their original text.
-Original-matching text is expected; only invented/garbled/misspelled text is flagged.
-Restart Claude Code after updating.
+POTTERY -> NORWEGIAN PDF — scaffold (v19)
+v19: balanced element rules (faithful, no forcing/emphasizing decorations); scenes
+cropped as one figure (no more splitting a bottle from its vessel). Restart Claude Code.

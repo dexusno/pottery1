@@ -13,10 +13,11 @@ crop, every run — never reuse, never output the original crop.
 Prompt per crop (reference inputs by index; change+preserve split):
   [USE] "An instructional ceramics-handout illustration."
   [STYLE] <ART DIRECTION block from CLAUDE.md, verbatim>
-  [TASK] "Restyle, not a new drawing. Reproduce Image 1 exactly — same shapes,
-    composition, proportions, counts, arrangement, orientation, and EVERY element
-    including small, background, and decorative ones — changing only the rendering
-    medium to match Image 2. Subject: <depicts>."
+  [TASK] "Restyle, not a new drawing. Reproduce Image 1 faithfully — same shapes,
+    composition, proportions, counts, arrangement, and orientation. Keep the same
+    elements at the same visual weight: add nothing, drop nothing, and do not
+    enlarge, brighten, or emphasize any element (incidental/background details stay
+    incidental). Change only the rendering medium to match Image 2. Subject: <depicts>."
   [PRESERVE] "Keep exactly, adding/removing/reordering nothing: <preserve list>.
     If the figure contains text, reproduce it exactly as in the original — same
     words, spelling, and placement (do not translate it)."
