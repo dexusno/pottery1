@@ -33,10 +33,9 @@ Write `work/<stem>/extract.json`:
 - `label_critical`: true when the figure's exact composition carries the
   instruction (labels point at specific parts, or it shows a specific stage/step).
 - `preserve`: every element that must survive a restyle, in order — INCLUDING small,
-  background, and decorative items (stars, sparkles, dots, motifs) and any text.
+  background, and decorative items, plus any text.
   Be exhaustive if label_critical; list the subject plus all such extras otherwise.
-- For parallel/paired figures (e.g. two side-by-side panels), crop them
-  symmetrically so each captures the same surrounding elements — don't let one panel
-  keep its stars while the other loses them.
+- For parallel/paired figures, crop them symmetrically so each captures the same
+  kinds of surrounding elements — don't let one panel keep elements the other drops.
 - `keep_english: true` only on the main title.
 Write only the JSON; report the path and a one-line summary.

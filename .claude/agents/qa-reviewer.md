@@ -18,10 +18,15 @@ Fail on any clear violation:
    inside a figure stays in the original language, matching the source.)
 3. **Figures (content)** — each remade figure depicts the SAME content as its
    original: same objects, counts, action/stage, arrangement, orientation, AND every
-   small/background/decorative element (stars, dots, motifs) and any text. Flag any
-   element added or dropped, even decorative ones. For parallel/paired figures, the
-   set must be consistent (if one panel has stars, the other should too, per the
-   original). `label_critical` figures must match the `preserve` list exactly.
+   small, background, or decorative element. Flag any element added or dropped, even
+   decorative ones. For parallel/paired figures, the set must be consistent with the
+   original (neither panel gains or loses elements the other keeps). `label_critical`
+   figures must match the `preserve` list exactly.
+   - **Figure text is EXPECTED:** if the original figure contains text, the remake
+     should reproduce it. Text that matches the original is correct — do NOT flag it
+     as "added" or "invented." Only flag figure text that is NOT in the original
+     (genuinely invented), or that is garbled, illegible, or misspelled vs the
+     original.
 4. **Figures (style)** — each `_v2.png` matches the anchor's medium and palette
    (soft gouache/ink, earthy tones) on a plain white background. Flag any that came
    back as flat line-art or in the wrong tone.

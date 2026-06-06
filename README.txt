@@ -1,3 +1,4 @@
-POTTERY -> NORWEGIAN PDF — scaffold (v16)
-v16: figures keep their ORIGINAL text; pipeline back to illustrator-before-translator.
-Title renders on one line (no more false two-line wrap). Restart Claude Code after updating.
+POTTERY -> NORWEGIAN PDF — scaffold (v18)
+v18: qa-reviewer no longer false-fails figures that keep their original text.
+Original-matching text is expected; only invented/garbled/misspelled text is flagged.
+Restart Claude Code after updating.

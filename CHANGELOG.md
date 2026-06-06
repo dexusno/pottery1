@@ -3,6 +3,21 @@
 All notable changes to the pottery → Norwegian PDF pipeline. Newest first.
 Versions track the scaffold iterations; all dated 2026-06-06 (built in one session).
 
+## v18 — 2026-06-06
+### Fixed
+- qa-reviewer was false-failing figures for "invented English text." There was no
+  no-text check left, but nothing told the agent that text reproduced from the
+  original is expected, so it matched the text to its "flag anything added" rule.
+  Added an explicit exception: figure text matching the original is correct; only
+  genuinely invented, garbled, or misspelled figure text is flagged.
+
+## v17 — 2026-06-06
+### Changed
+- Removed sheet-specific examples ("stars, sparkles, dots, motifs") from the
+  extractor, illustrator, and qa-reviewer. The element-preservation rules are now
+  fully general ("every small, background, or decorative element"), so they apply to
+  any sheet, not the test image.
+
 ## v16 — 2026-06-06
 ### Changed
 - Figures keep their text in the ORIGINAL language (reverted the Bokmål-in-figure

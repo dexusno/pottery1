@@ -15,8 +15,8 @@ Prompt per crop (reference inputs by index; change+preserve split):
   [STYLE] <ART DIRECTION block from CLAUDE.md, verbatim>
   [TASK] "Restyle, not a new drawing. Reproduce Image 1 exactly — same shapes,
     composition, proportions, counts, arrangement, orientation, and EVERY element
-    including small/background/decorative ones (stars, sparkles, dots, motifs) —
-    changing only the rendering medium to match Image 2. Subject: <depicts>."
+    including small, background, and decorative ones — changing only the rendering
+    medium to match Image 2. Subject: <depicts>."
   [PRESERVE] "Keep exactly, adding/removing/reordering nothing: <preserve list>.
     If the figure contains text, reproduce it exactly as in the original — same
     words, spelling, and placement (do not translate it)."
