@@ -3,7 +3,6 @@
 > Rebuild English ceramics-course image sheets into clean, typeset **Norwegian A4 PDFs** — text translated, every figure repainted by AI in one consistent hand.
 
 [![Built with Claude Code](https://img.shields.io/badge/built%20with-Claude%20Code-B85C38)](https://docs.claude.com/en/docs/claude-code/overview)
-[![Model](https://img.shields.io/badge/model-Claude%20Opus%204.8-B85C38)](https://docs.claude.com/en/docs/claude-code/overview)
 [![Images](https://img.shields.io/badge/figures-gpt--image--2-412991)](https://platform.openai.com/)
 [![Python](https://img.shields.io/badge/python-3.9%2B-blue)](https://www.python.org/)
 [![Platform](https://img.shields.io/badge/platform-Windows-blue)](#setup)
@@ -121,7 +120,7 @@ Figure regeneration uses the **gpt-image-2** API (everything else — Claude Cod
 
 | Component | Required | Notes |
 |---|---|---|
-| **Claude Code v2.1.154+** | Yes | For Opus 4.8 — `claude update` |
+| **Claude Code** | Yes | Any current version — run `claude update` to stay up to date |
 | **Python 3.9+** | Yes | `pip install pillow playwright openai` then `playwright install chromium` |
 | **OpenAI API key** | Yes | For gpt-image-2; needs OpenAI **Organization Verification**. Without a valid key the run stops with an error — it does **not** fall back to the original drawings. |
 | **A style anchor** | Yes | One approved reference image at `style/anchor.png` (create with `/style-anchor`) |
@@ -149,12 +148,12 @@ This file sets PowerShell as the default shell and injects `OPENAI_API_KEY` into
 ## Usage
 
 1. Put source images (`*.jpg` / `*.png`) in the project root.
-2. Launch Claude Code and select the model:
+2. Launch Claude Code:
    ```powershell
    cd D:\pottery
    claude
-   /model claude-opus-4-8
    ```
+   A more capable model gives better figure and layout judgment, but any model works.
 3. Establish the look once: run `/style-anchor`, then copy your favourite candidate to `style/anchor.png`.
 4. Test one sheet, then run the set:
    ```

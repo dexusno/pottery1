@@ -3,6 +3,12 @@
 All notable changes to the pottery → Norwegian PDF pipeline. Newest first.
 Versions track the scaffold iterations; all dated 2026-06-06 (built in one session).
 
+## v24 — 2026-06-06
+### Changed
+- README: removed the Claude Code v2.1.154 / Opus 4.8 pin from Requirements, Usage,
+  and the badges. That version requirement was specific to our setup, not a real
+  dependency — the pipeline runs on any current Claude Code with any model.
+
 ## v23 — 2026-06-06
 ### Changed
 - Redesigned the README in a modern style (badges, table of contents, ASCII pipeline
