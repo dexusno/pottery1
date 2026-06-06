@@ -3,6 +3,28 @@
 All notable changes to the pottery → Norwegian PDF pipeline. Newest first.
 Versions track the scaffold iterations; all dated 2026-06-06 (built in one session).
 
+## v16 — 2026-06-06
+### Changed
+- Figures keep their text in the ORIGINAL language (reverted the Bokmål-in-figure
+  experiment). Pipeline order restored to illustrator-before-translator, since the
+  illustrator no longer needs translations.
+### Fixed
+- Title no longer wraps to two lines when it fits on one: the extractor normalizes
+  the title to a single line (collapsing any source line break) and the
+  layout-builder keeps it on one line, only wrapping/shrinking if it truly won't fit.
+
+## v15 — 2026-06-06
+### Changed
+- Figures and the PDF page are now WHITE (was warm cream), so restyled figures blend
+  into the page with no visible square/box around them.
+- Removed the no-text restriction: figures now reproduce any text faithfully and
+  spelled exactly (gpt-image-2 renders text reliably).
+### Fixed
+- Dropped/inconsistent elements (e.g. stars on one panel but not the other) are now
+  caught: the extractor lists decorative/background elements in `preserve` and crops
+  paired figures symmetrically; the illustrator must keep every element; qa-reviewer
+  flags any added or dropped element and checks parallel figures stay consistent.
+
 ## v14 — 2026-06-06
 ### Added
 - Style-match gate in qa-reviewer: the anchor is now an input, and each `_v2.png` is

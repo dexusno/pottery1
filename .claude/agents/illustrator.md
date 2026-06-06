@@ -14,11 +14,13 @@ Prompt per crop (reference inputs by index; change+preserve split):
   [USE] "An instructional ceramics-handout illustration."
   [STYLE] <ART DIRECTION block from CLAUDE.md, verbatim>
   [TASK] "Restyle, not a new drawing. Reproduce Image 1 exactly — same shapes,
-    composition, proportions, counts, arrangement, orientation — changing only the
-    rendering medium to match Image 2. Subject: <depicts>."
-  [PRESERVE] "Keep exactly: <preserve list>. Add/remove/reorder nothing."
-  [CONSTRAINTS] "No text, letters, numbers, labels, or borders. Warm-cream
-    background, centered."
+    composition, proportions, counts, arrangement, orientation, and EVERY element
+    including small/background/decorative ones (stars, sparkles, dots, motifs) —
+    changing only the rendering medium to match Image 2. Subject: <depicts>."
+  [PRESERVE] "Keep exactly, adding/removing/reordering nothing: <preserve list>.
+    If the figure contains text, reproduce it exactly as in the original — same
+    words, spelling, and placement (do not translate it)."
+  [CONSTRAINTS] "Plain solid white background, centered. No border or frame."
 
 Run:
   `python scripts/illustrate.py work/<stem>/crops/<name>.png work/<stem>/crops/<name>_v2.png "<prompt>" --style-ref style/anchor.png --quality <q>`

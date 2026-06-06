@@ -14,7 +14,7 @@ Write `work/<stem>/extract.json`:
 {
   "source": "<filename>",
   "page_size": [w, h],
-  "title": {"text": "<main header, verbatim>", "keep_english": true},
+  "title": {"text": "<main header, as ONE line — collapse any source line breaks>", "keep_english": true},
   "layout": "<one plain sentence describing this sheet's actual layout>",
   "blocks": [
     {"id": "b1", "role": "heading|step_name|bullet|label|caption|note|question",
@@ -23,14 +23,20 @@ Write `work/<stem>/extract.json`:
   "crops": [
     {"name": "<snake_case>", "box": [l, t, r, b], "depicts": "<what it shows>",
      "place_near": "<block id/group>", "label_critical": false,
-     "preserve": ["<element>", "..."]}
+     "preserve": ["<element>", "..."], "text": ["<verbatim text inside the figure, if any>"]}
   ]
 }
 
 - `box`/`anchor` are normalized 0..1; err slightly large on `box`.
+- `text`: any words that appear INSIDE the figure (e.g. a label on a bottle),
+  verbatim. Omit or use [] if the figure has no text.
 - `label_critical`: true when the figure's exact composition carries the
   instruction (labels point at specific parts, or it shows a specific stage/step).
-- `preserve`: what must survive a restyle, in order — exhaustive if label_critical,
-  a short subject description otherwise.
+- `preserve`: every element that must survive a restyle, in order — INCLUDING small,
+  background, and decorative items (stars, sparkles, dots, motifs) and any text.
+  Be exhaustive if label_critical; list the subject plus all such extras otherwise.
+- For parallel/paired figures (e.g. two side-by-side panels), crop them
+  symmetrically so each captures the same surrounding elements — don't let one panel
+  keep its stars while the other loses them.
 - `keep_english: true` only on the main title.
 Write only the JSON; report the path and a one-line summary.

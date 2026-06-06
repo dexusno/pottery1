@@ -14,13 +14,17 @@ Fail on any clear violation:
 1. **Information** — every instruction/label from the original is present and
    unchanged in meaning; nothing dropped, added, reordered, or altered. The main
    title stays English, verbatim.
-2. **Translation** — Bokmål reads naturally; ceramics terms are correct.
+2. **Translation** — Bokmål reads naturally; ceramics terms are correct. (Text
+   inside a figure stays in the original language, matching the source.)
 3. **Figures (content)** — each remade figure depicts the SAME content as its
-   original (same objects, counts, action/stage, arrangement, orientation). For
-   `label_critical` figures the `preserve` list must match exactly.
+   original: same objects, counts, action/stage, arrangement, orientation, AND every
+   small/background/decorative element (stars, dots, motifs) and any text. Flag any
+   element added or dropped, even decorative ones. For parallel/paired figures, the
+   set must be consistent (if one panel has stars, the other should too, per the
+   original). `label_critical` figures must match the `preserve` list exactly.
 4. **Figures (style)** — each `_v2.png` matches the anchor's medium and palette
-   (soft gouache/ink, warm cream background, earthy tones). Flag any that came back
-   as flat line-art, on a white/transparent background, or in the wrong tone.
+   (soft gouache/ink, earthy tones) on a plain white background. Flag any that came
+   back as flat line-art or in the wrong tone.
 5. **Layout fidelity** — order and label-to-figure relationships match the original.
 
 Write `work/<stem>/qa.md`: first line `RESULT: PASS` or `RESULT: FAIL`, then a short

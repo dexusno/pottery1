@@ -29,15 +29,16 @@ structure from the source itself, never assume a fixed format.
 
 ## House style (ART DIRECTION — injected verbatim into every image prompt)
 "Warm hand-drawn studio-sketch illustration. Confident, slightly loose ink
-linework with soft gouache/watercolor washes and subtle paper-grain texture.
-Earthy ceramics-studio palette: terracotta/rust as the primary accent, warm cream
-as the background, muted sage green and soft charcoal as secondaries. Cozy,
-artisanal, friendly. Single subject, centered, generous margins, plain warm-cream
-background. No text, no letters, no numbers, no labels, no border, no frame."
+linework with soft gouache/watercolor washes. Earthy ceramics-studio palette:
+terracotta/rust as the primary accent, muted sage green and soft charcoal as
+secondaries. Cozy, artisanal, friendly. Single subject, centered, generous margins,
+on a plain solid white background. Reproduce any text that appears in the source
+figure clearly, legibly, and spelled exactly as given; do not add text that isn't
+there. No border, no frame."
 
 ### Palette (used for BOTH the illustrations and the page)
 - Terracotta / rust (primary accent, titles): #B85C38
-- Warm cream (page + image background):       #F7F0E6
+- White (page + figure background):           #FFFFFF
 - Sage green (secondary accent):              #8C9A7B
 - Soft charcoal (body text, linework):        #3A3330
 - Faint sage tint (alternating row shading):  #ECEFE6
@@ -90,7 +91,7 @@ producing un-styled original crops.
 
 Image generation uses **gpt-image-2** via `scripts\illustrate.py`. Requires
 `OPENAI_API_KEY`; gpt-image-2 is gated behind OpenAI Organization Verification.
-gpt-image-2 has no transparent background, so figures render on warm cream.
+gpt-image-2 has no transparent background, so figures render on solid white.
 
 ## Folder layout (project root = D:\pottery)
 - Source images at the **project root**: `*.jpg`, `*.jpeg`, `*.png`.

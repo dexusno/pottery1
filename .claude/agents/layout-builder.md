@@ -16,6 +16,8 @@ Build `work/<stem>/page.html`:
   colors, fonts, or spacing: `<link rel="stylesheet" href="../../styles/page.css">`.
   Anything missing belongs in page.css, not the page.
 - `<div class="page">` → `<h1 class="title">` (English) → body in `<div class="content">`.
+  Keep the title on ONE line — never copy a line break from the source; only let it
+  wrap if it truly won't fit the width (then lower `--fs-title`, don't force a break).
 - Reproduce THIS sheet's actual layout (from `extract.json.layout`); don't force a
   template. Available building blocks: `.step-grid` (name | bullets | figure rows),
   `.compare` (parallel `.col`s with `.figure.hero` + `.heading` + `.bullets`),

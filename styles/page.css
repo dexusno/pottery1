@@ -5,6 +5,7 @@
 :root {
   --terracotta: #B85C38;
   --cream:      #F7F0E6;
+  --page-bg:    #FFFFFF;
   --sage:       #8C9A7B;
   --charcoal:   #3A3330;
   --row-tint:   #ECEFE6;
@@ -32,7 +33,7 @@ html, body { margin: 0; padding: 0; }
 
 .page {
   width: 210mm; min-height: 297mm;
-  background: var(--cream);
+  background: var(--page-bg);
   color: var(--charcoal);
   font-family: var(--font-body);
   font-size: var(--fs-body);
