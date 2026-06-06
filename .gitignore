@@ -1,0 +1,17 @@
+work/
+output/
+style/anchor_*.png
+__pycache__/
+*.pyc
+ignore.txt
+.env
+*.key
+*.pem
+/*.jpg
+/*.JPG
+/*.jpeg
+/*.JPEG
+/*.png
+/*.PNG
+.DS_Store
+Thumbs.db
