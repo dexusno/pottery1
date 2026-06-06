@@ -3,6 +3,12 @@
 All notable changes to the pottery → Norwegian PDF pipeline. Newest first.
 Versions track the scaffold iterations; all dated 2026-06-06 (built in one session).
 
+## v23 — 2026-06-06
+### Changed
+- Redesigned the README in a modern style (badges, table of contents, ASCII pipeline
+  diagram, tables, GitHub admonitions, and a collapsible "Under the Hood"), modeled
+  on the Transcribe-Subs README. Added Features, Cost, and Troubleshooting sections.
+
 ## v22 — 2026-06-06
 ### Changed
 - Rewrote README with a detailed "How it works" section explaining each agent
