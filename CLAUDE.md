@@ -13,8 +13,11 @@ any text size, portrait or landscape. These rules are general: infer each sheet'
 structure from the source itself, never assume a fixed format.
 
 ## Hard rules
-1. **Header stays English.** The main page title/header is kept verbatim in English.
-   Everything else (steps, bullets, labels, captions) is translated to Bokmål.
+1. **Translate to Bokmål, keeping common English words.** Translate all text —
+   including the title/header — into idiomatic Bokmål. But keep a word in English
+   when that is the form Norwegians actually use (an established anglicism), even if
+   a Norwegian equivalent exists. Judge by real-world Norwegian usage, not by whether
+   a translation is possible.
 2. **Single A4 page.** Every deliverable is exactly one A4 portrait PDF per source
    image, named after the source file. Content must fit on that one page and fill it
    sensibly — scale figures/type down for dense sheets, up for sparse ones (via the

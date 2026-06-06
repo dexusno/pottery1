@@ -1,3 +1,3 @@
-POTTERY -> NORWEGIAN PDF — scaffold (v19)
-v19: balanced element rules (faithful, no forcing/emphasizing decorations); scenes
-cropped as one figure (no more splitting a bottle from its vessel). Restart Claude Code.
+POTTERY -> NORWEGIAN PDF — scaffold (v21)
+v21: header is now translated (no more forced English). Keep words in English only
+where Norwegians commonly use the English form (anglicisms). Restart Claude Code.

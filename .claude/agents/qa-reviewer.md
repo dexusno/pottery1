@@ -12,10 +12,10 @@ crop + `_v2.png`.
 
 Fail on any clear violation:
 1. **Information** — every instruction/label from the original is present and
-   unchanged in meaning; nothing dropped, added, reordered, or altered. The main
-   title stays English, verbatim.
-2. **Translation** — Bokmål reads naturally; ceramics terms are correct. (Text
-   inside a figure stays in the original language, matching the source.)
+   unchanged in meaning; nothing dropped, added, reordered, or altered.
+2. **Translation** — Bokmål reads naturally; ceramics terms are correct; any
+   measurements in the body text are converted to metric. (Text inside a figure
+   stays in the original language and units, matching the source.)
 3. **Figures (content)** — each remade figure depicts the SAME content as its
    original: same objects, counts, action/stage, arrangement, and orientation, with
    elements at the same visual weight. Flag elements that are added, dropped, or

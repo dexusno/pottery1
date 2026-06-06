@@ -14,7 +14,7 @@ Write `work/<stem>/extract.json`:
 {
   "source": "<filename>",
   "page_size": [w, h],
-  "title": {"text": "<main header, as ONE line — collapse any source line breaks>", "keep_english": true},
+  "title": {"text": "<main header, as ONE line — collapse any source line breaks>"},
   "layout": "<one plain sentence describing this sheet's actual layout>",
   "blocks": [
     {"id": "b1", "role": "heading|step_name|bullet|label|caption|note|question",
@@ -37,5 +37,4 @@ Write `work/<stem>/extract.json`:
 - Crop a coherent scene as ONE figure — keep elements that belong together (e.g. an
   action and the object it acts on) in the same crop; don't split them into separate
   figures or invent missing pieces.
-- `keep_english: true` only on the main title.
 Write only the JSON; report the path and a one-line summary.

@@ -3,6 +3,22 @@
 All notable changes to the pottery → Norwegian PDF pipeline. Newest first.
 Versions track the scaffold iterations; all dated 2026-06-06 (built in one session).
 
+## v21 — 2026-06-06
+### Changed
+- Dropped the "header stays English" rule. The title is now translated to Bokmål
+  like the rest of the text.
+- New translation principle (title and body alike): keep a word in English when that
+  is the form Norwegians actually use (an established anglicism), even if a Norwegian
+  equivalent exists — judged by real everyday usage, not by whether a translation is
+  possible. Removed the `keep_english` flag from the extractor.
+
+## v20 — 2026-06-06
+### Added
+- Translator now converts body-text measurements to metric (inches/feet→cm/mm,
+  oz/lb→g/kg, cups/tbsp/tsp/fl oz→ml/l, °F→°C), with Norwegian comma decimals and
+  sensible rounding; ceramics-standard units (e.g. cone numbers) are left alone.
+  Figures keep their original text and units. qa-reviewer verifies the conversion.
+
 ## v19 — 2026-06-06
 ### Fixed
 - Walked back the v15 element-preservation overcorrection that was forcing/emphasizing
