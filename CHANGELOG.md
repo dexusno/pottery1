@@ -3,6 +3,15 @@
 All notable changes to the pottery → Norwegian PDF pipeline. Newest first.
 Versions track the scaffold iterations; all dated 2026-06-06 (built in one session).
 
+## v9 — 2026-06-06
+### Added
+- `.claude/settings.json.example`: template that sets PowerShell as the default
+  shell (`defaultShell: powershell`, `CLAUDE_CODE_USE_POWERSHELL_TOOL=1`) and holds
+  a placeholder OPENAI_API_KEY. Copy to `.claude/settings.json` and add your key.
+### Security
+- `.claude/settings.json` and `.claude/settings.local.json` are gitignored so no
+  real key reaches the repo.
+
 ## v8 — 2026-06-06
 ### Added
 - `styles/page.css`: a single shared stylesheet every page links. Palette, fonts,
