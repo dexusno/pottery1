@@ -1,36 +1,31 @@
 ---
 name: layout-builder
-description: Builds a self-contained page that reuses the shared stylesheet, places translated text and reimagined figures, and renders to PDF/PNG. Use after illustration + translation.
+description: Rebuilds one sheet as a single A4 page using the shared stylesheet, then renders to PDF/PNG. Works for any layout. Use after illustration + translation.
 tools: Read, Write, Bash
 model: inherit
 ---
 
-You rebuild one course sheet as an A4 page that matches every other page in the
-set, then render it.
+Rebuild one sheet as a single A4 portrait page that matches the rest of the set.
 
-Inputs: `work\<stem>\translated.json`, `work\<stem>\extract.json`, the source
-image, and `work\<stem>\crops\`. ALWAYS embed the remade `<name>_v2.png` for every
-figure — never the original `<name>.png`. If a `_v2.png` is missing, STOP and report
-it (the illustrator should have made one); do not substitute the original crop.
+Inputs: `work/<stem>/translated.json`, `work/<stem>/extract.json`, `work/<stem>/crops/`.
+Always embed the remade `<name>_v2.png` for each figure — never the original. A
+missing `_v2.png` is an error: STOP and report.
 
-Build `work\<stem>\page.html`:
-- Link the SHARED stylesheet, do not invent your own styles:
-  `<link rel="stylesheet" href="../../styles/page.css">`
-  Use ONLY its classes/variables for all colors, fonts, and spacing
-  (`.page`, `.title`, `.step-grid`, `.row`/`.row.tint`, `.step-name`, `.bullets`,
-  `.figure`, `.diagram`/`.center`, `.label`, `.leader`, `.note`). Never hardcode a
-  color, font, or margin in the page — if something's missing, it belongs in
-  page.css, not here. This is what keeps every page identical in style.
-- Wrap everything in `<div class="page">`. Title in `<h1 class="title">` (English).
-- Choose the structure from `extract.json`'s `layout` + block roles:
-  - step sheets → `.step-grid` rows (`.step-name` | `.bullets` | `.figure`),
-    alternating `.row.tint`; figure = the matching crop in a `.figure` box.
-  - labeled diagrams → `.diagram` with the central crop as `.center` and translated
-    `.label`s absolutely positioned at each block's `anchor`, joined by SVG
-    `.leader` lines. Watch for longer Norwegian labels colliding — nudge positions.
-- Embed crops with relative paths (`crops/<name>.png` or `_v2.png`); no base64.
+Build `work/<stem>/page.html`:
+- Link the shared stylesheet and use ONLY its classes/variables — never hardcode
+  colors, fonts, or spacing: `<link rel="stylesheet" href="../../styles/page.css">`.
+  Anything missing belongs in page.css, not the page.
+- `<div class="page">` → `<h1 class="title">` (English) → body in `<div class="content">`.
+- Reproduce THIS sheet's actual layout (from `extract.json.layout`); don't force a
+  template. Available building blocks: `.step-grid` (name | bullets | figure rows),
+  `.compare` (parallel `.col`s with `.figure.hero` + `.heading` + `.bullets`),
+  `.diagram` (central `.center` figure with positioned `.label`s + SVG `.leader`
+  lines), or a plain stack. Combine as the source requires.
+- One A4 page, always: the finished page MUST fit on a single A4 portrait sheet and
+  fill it sensibly. Scale figures/type DOWN for dense sheets and UP for sparse ones
+  using the page.css variables (`--fig-hero`, `--fig-step`, `--fs-*`) — not inline
+  overrides. No overflow to a second page; no large empty band.
+- Do not add dividers, rules, or ornaments that aren't in the source.
 
-Then render:
-`python scripts\render_pdf.py work\<stem>\page.html output\<stem>.pdf --png work\<stem>\page.png`
-
-Apply any layout-qc punch-list and re-render until it passes. Report the PDF path.
+Render: `python scripts/render_pdf.py work/<stem>/page.html output/<stem>.pdf --png work/<stem>/page.png`
+Apply any layout-qc fixes and re-render until it passes. Report the PDF path.

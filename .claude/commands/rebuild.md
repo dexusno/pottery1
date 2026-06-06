@@ -20,10 +20,9 @@ For each selected image, in order, following CLAUDE.md:
 1. Delegate to the extractor subagent → work\<stem>\extract.json.
 2. Run: python scripts\crop.py <image> work\<stem>\crops work\<stem>\extract.json
 3. Delegate to the illustrator subagent → it regenerates a fresh _v2.png for EVERY
-   crop from its original (img2img restyle), using style\anchor.png if present.
-   Default is ALWAYS regenerate. If $ARGUMENTS contains `keep-art`, reuse existing
-   _v2.png instead (to save cost once a set is approved). If illustrate.py errors
-   (e.g. missing OPENAI_API_KEY), STOP and report — never fall back to originals.
+   crop from its original (img2img restyle), using style\anchor.png. Always
+   regenerate — there is no reuse path. If illustrate.py errors (e.g. missing
+   OPENAI_API_KEY), STOP and report — never fall back to the original crops.
 4. Delegate to the translator subagent → work\<stem>\translated.json.
 5. Delegate to the layout-builder subagent → output\<stem>.pdf + page.png.
 6. Delegate to the layout-qc subagent (visual/typography) → work\<stem>\qa_layout.md.

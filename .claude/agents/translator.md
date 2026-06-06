@@ -16,7 +16,7 @@ identical structure, but:
    instructional — these are course handouts, not prose.
 3. Preserve numbering, order, ids, groups, anchors, and the entire `crops` array
    unchanged.
-4. Use the ceramics glossary in CLAUDE.md. Use established Norwegian terms, not
+4. Use established Norwegian ceramics terms, not
    literal word-for-word translations.
 5. If a term has no settled Norwegian equivalent, choose the clearest option and
    add a sibling field `"note": "<your uncertainty / alternative>"` on that block

@@ -1,6 +1,5 @@
-POTTERY -> NORWEGIAN PDF — scaffold (v9)
-v9: image step ALWAYS regenerates every figure from its original via gpt-image-2.
-No "use original instead" anywhere; originals are input only. Reuse is opt-in
-(/rebuild <name> keep-art). Missing OPENAI_API_KEY now STOPS the run loudly.
-Restart Claude Code after updating. To re-test a sheet with fresh art, just:
-  /rebuild IMG_7436.JPG     (regenerates by default now)
+POTTERY -> NORWEGIAN PDF — scaffold (v12)
+v12: agent instructions are now generic (no per-sheet examples) and trimmed to
+essentials so nothing gets skipped. Single-A4 output is a hard rule; content scales
+to fit one A4 portrait page. Tune set-wide sizing in styles/page.css.
+Restart Claude Code after updating.

@@ -1,5 +1,5 @@
 /* Shared design system for every rebuilt page. Pages link this file and add only
-   structure + content — never their own colors, fonts, or spacing. */
+   structure + content — never their own colors, fonts, spacing, or rules. */
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Nunito:wght@400;600;700&display=swap');
 
 :root {
@@ -12,21 +12,22 @@
   --font-title: 'Fraunces', Georgia, serif;
   --font-body:  'Nunito', system-ui, sans-serif;
 
-  --pad:        14mm;        /* page margin */
-  --gap:        6mm;         /* standard gutter */
+  --pad:        14mm;
+  --gap:        8mm;
   --radius:     4mm;
 
-  --fs-title:   30pt;
-  --fs-step:    15pt;
-  --fs-body:    11.5pt;
-  --fs-label:   10.5pt;
-  --lh-body:    1.4;
+  --fs-title:   34pt;
+  --fs-step:    18pt;
+  --fs-body:    13.5pt;
+  --fs-label:   12pt;
+  --lh-body:    1.5;
+
+  --fig-step:   38mm;   /* figures in step sheets */
+  --fig-hero:   92mm;   /* prominent figures in comparison/hero layouts */
 }
 
 * { box-sizing: border-box; }
-
 @page { size: A4 portrait; margin: 0; }
-
 html, body { margin: 0; padding: 0; }
 
 .page {
@@ -37,34 +38,41 @@ html, body { margin: 0; padding: 0; }
   font-size: var(--fs-body);
   line-height: var(--lh-body);
   padding: var(--pad);
+  display: flex; flex-direction: column;   /* enables vertical balance */
 }
 
 .title {
-  font-family: var(--font-title);
-  font-weight: 700;
-  color: var(--terracotta);
-  font-size: var(--fs-title);
-  margin: 0 0 var(--gap) 0;
-  letter-spacing: 0.2pt;
+  font-family: var(--font-title); font-weight: 700;
+  color: var(--terracotta); font-size: var(--fs-title);
+  text-align: center; margin: 0 0 var(--gap) 0; letter-spacing: 0.2pt;
 }
 
+/* The body content fills and centers in the space below the title, so short
+   sheets don't leave a large empty band at the bottom. */
+.content { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: var(--gap); }
+
 /* step-sheet layout: name | bullets | figure */
-.step-grid { display: grid; grid-template-columns: 32mm 1fr 34mm; gap: var(--gap); }
+.step-grid { display: grid; grid-template-columns: 34mm 1fr 42mm; gap: var(--gap); }
 .row { display: contents; }
 .row > * { padding: 3mm 0; }
 .row.tint > * { background: var(--row-tint); }
 .step-name { font-family: var(--font-title); font-weight: 700; color: var(--sage); font-size: var(--fs-step); }
-.bullets { margin: 0; padding-left: 5mm; }
-.bullets li { margin: 0 0 1.5mm 0; }
-
-/* figures: consistent box, centered, never distorted */
+.bullets { margin: 0; padding-left: 6mm; }
+.bullets li { margin: 0 0 2.5mm 0; }
 .figure { display: flex; align-items: center; justify-content: center; }
-.figure img { max-width: 100%; max-height: 32mm; height: auto; width: auto; display: block; }
+.figure img { max-width: 100%; max-height: var(--fig-step); height: auto; width: auto; display: block; }
+
+/* comparison layout: two parallel columns, NO divider rule between them */
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 14mm; align-items: start; }
+.col { text-align: center; }
+.col .bullets { text-align: left; display: inline-block; }
+.col .heading { font-family: var(--font-title); font-weight: 700; color: var(--terracotta); font-size: var(--fs-step); margin: 4mm 0; letter-spacing: 0.5pt; }
+.figure.hero img { max-height: var(--fig-hero); }
 
 /* labeled-diagram layout */
 .diagram { position: relative; width: 100%; }
-.diagram .center { display: block; margin: 0 auto; max-width: 78%; height: auto; }
-.label { position: absolute; font-size: var(--fs-label); color: var(--charcoal); max-width: 40mm; }
+.diagram .center { display: block; margin: 0 auto; max-width: 82%; height: auto; }
+.label { position: absolute; font-size: var(--fs-label); color: var(--charcoal); max-width: 42mm; }
 .leader { stroke: var(--charcoal); stroke-width: 0.5; fill: none; }
 
 .note { color: var(--sage); font-style: italic; }

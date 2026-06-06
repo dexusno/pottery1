@@ -3,6 +3,42 @@
 All notable changes to the pottery → Norwegian PDF pipeline. Newest first.
 Versions track the scaffold iterations; all dated 2026-06-06 (built in one session).
 
+## v13 — 2026-06-06
+### Removed
+- The Norwegian ceramics glossary. The translator is Claude, which already knows the
+  vocabulary, so the word list was redundant. Replaced with a short consistency note
+  (pick one translation per term and use it set-wide).
+
+## v12 — 2026-06-06
+### Changed
+- Genericized all agent instructions: removed example-specific guidance so they
+  work for any sheet (any layout, format, or text size), inferring structure from
+  the source rather than matching a fixed template.
+- Trimmed every agent's checklist to the essentials, so long lists don't get
+  skipped (layout-qc → 5 checks, qa-reviewer → 4, illustrator/extractor tightened).
+- Made single-A4 a hard rule: every output is exactly one A4 portrait page; content
+  is scaled to fit and fill it (down for dense sheets, up for sparse), never
+  overflowing to a second page.
+
+## v11 — 2026-06-06
+### Changed
+- Rebalanced the shared stylesheet: larger figures (hero figures up to ~92mm) and
+  type, and a `.content` wrapper that vertically centers the body so short sheets
+  no longer leave a big empty band at the bottom.
+- Added a proper two-column `.compare` layout for comparison sheets, with NO
+  divider rule between columns.
+- layout-builder: forbidden from drawing decorative dividers/rules not in the
+  source; must size figures prominently via page.css variables.
+- layout-qc tightened: now fails on poor vertical balance / wasted space, timid
+  figures, too-small text, and extraneous decoration (e.g. the dotted divider).
+
+## v10 — 2026-06-06
+### Changed
+- Removed the `keep-art` reuse option entirely. There is now NO reuse path: every
+  figure is always regenerated from its original crop on every run.
+- Premise restated across the agents: the anchor defines the STYLE; the original
+  crop is the guide for WHAT the figure must convey. The crop is input only.
+
 ## v9 — 2026-06-06
 ### Changed
 - Image step is now ALWAYS regenerate: every figure is remade from its original

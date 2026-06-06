@@ -7,19 +7,25 @@ translated to **Norwegian Bokmål**, every figure reimagined in ONE consistent
 "warm studio sketch" illustration style, while preserving each sheet's layout,
 structure, and the instructional meaning of every figure.
 
+## Sheets vary
+Source sheets differ widely — handwritten or typeset, dense or sparse, any layout,
+any text size, portrait or landscape. These rules are general: infer each sheet's
+structure from the source itself, never assume a fixed format.
+
 ## Hard rules
-1. **Header stays English.** The main page title/header is kept verbatim in
-   English (e.g. "Wheel Throwing Steps", "Types of Coils", "Stages of Clay").
+1. **Header stays English.** The main page title/header is kept verbatim in English.
    Everything else (steps, bullets, labels, captions) is translated to Bokmål.
-2. **Typeset, not handwritten.** Page text uses Fraunces (titles) + Nunito (body)
-   via Google Fonts. Never imitate handwriting.
-3. **Reimagine figures in one style.** Every figure is redrawn by the illustrator
-   in the house style below, against the shared style anchor, so the whole set
-   looks cohesive — UNLESS doing so would misrepresent an instruction (see below).
-4. **Never break an instruction.** A figure's meaning comes before its looks. For
-   label-critical figures the preserve-list is law; if the redraw can't honor it,
-   keep the original crop.
-5. **One PDF per source image**, named after the source file.
+2. **Single A4 page.** Every deliverable is exactly one A4 portrait PDF per source
+   image, named after the source file. Content must fit on that one page and fill it
+   sensibly — scale figures/type down for dense sheets, up for sparse ones (via the
+   page.css variables), never overflowing to a second page or leaving it half-empty.
+3. **Typeset, not handwritten.** Page text uses Fraunces (titles) + Nunito (body).
+   Never imitate handwriting.
+4. **Every figure is remade in one style** (see Figure policy) — never output an
+   original crop.
+5. **Never break an instruction.** A figure's meaning comes before its looks. For
+   label-critical figures the preserve-list is law; if a redraw can't honor it after
+   retries, flag it for review — do not substitute the original.
 
 ## House style (ART DIRECTION — injected verbatim into every image prompt)
 "Warm hand-drawn studio-sketch illustration. Confident, slightly loose ink
@@ -61,10 +67,10 @@ NEVER used as an output figure. Every figure on every page is a model-made
 `_v2.png` restyle of its original crop.
 
 ALWAYS regenerate: each `/rebuild` makes a fresh `_v2.png` for every crop. There is
-no "use the original instead" path. If a generation fails (missing key, org not
-verified, rate limit), the run STOPS and reports the error — it must be fixed, not
-hidden behind the original. (Opt-in only: `/rebuild <name> keep-art` reuses existing
-`_v2.png` to save cost once you have approved a set.)
+NO reuse path and no "use the original instead" path. The anchor defines the style;
+the original crop is the guide for what the figure must convey. If a generation
+fails (missing key, org not verified, rate limit), the run STOPS and reports the
+error — it must be fixed, not hidden behind the original.
 
 Figure size matches the source automatically: illustrate.py reads each crop and
 picks a gpt-image-2 size with the same aspect ratio, so figures are never distorted.
@@ -123,32 +129,12 @@ The main session is the orchestrator. Run `/rebuild` to process the folder.
 - `/rebuild` → all pending root images, minus `ignore.txt`.
 - `/rebuild <name...>` → only those, forced.
 - `/rebuild all` → full refresh.
-- `/rebuild <name…> keep-art` → reuse existing figures instead of regenerating
-  (default is to regenerate every figure).
+
 - `/status` → done/pending, QA result, ignored.
 - `/style-anchor` → generate style candidates to choose from.
 
-## Norwegian ceramics glossary (guidance — confirm anything uncertain)
-- wheel throwing → dreiing; pottery wheel → dreieskive
-- wedge / wedging clay → kna leira
-- center / centering → sentrere
-- cone up / cone down → kjegle opp / kjegle ned
-- open (the clay) → åpne
-- pull (the walls) → trekke opp veggene
-- trim / trimming → dreie av / beskjære (foten)
-- slip → slikker (leirvelling); "potter's glue" → "potters lim (slikker)"
-- score and slip → ripe og slikke
-- leather hard → lærhard
-- bone dry → beintørr
-- bisque / bisqueware → biskvibrenning / biskvi
-- glaze / glaze ware → glasur / glasert
-- coil (building) → pølse (pølseteknikk); coil pot → pølsekrukke
-- pinch pot → klypekrukke
-- slab (construction) → plate (platebygging)
-- kiln → keramikkovn
-- lip → kant; level lip → jevn kant
-- spiral / squiggle → spiral / bølgelinje
-- splash pan → sprutbeholder; recycle bucket → gjenvinningsbøtte
-
-When a term has no settled Norwegian equivalent, pick the clearest option and add
-a `note` field in `translated.json` so it can be reviewed.
+## Translation consistency
+Translate into idiomatic Bokmål using established ceramics terms. Where a term has
+more than one valid translation, pick one and use it consistently across the whole
+set. If a term has no settled Norwegian equivalent, choose the clearest option and
+add a `note` field in `translated.json` so it can be reviewed.
