@@ -3,6 +3,14 @@
 All notable changes to the Sheet2PDF pipeline (image sheets → translated A4 PDFs). Newest first.
 Versions track the scaffold iterations; all dated 2026-06-06 (built in one session).
 
+## v34 — 2026-06-13
+### Fixed
+- illustrate.py aspect_size(): small/wide/tall crops could produce sizes below
+  gpt-image-2's minimum total pixel budget (655,360 px) and be rejected (found on
+  the IMG_7441 run). Sizes are now scaled up to satisfy the pixel floor while
+  keeping the crop's aspect (<= 3:1) and /16 snapping; verified across 12 crop
+  shapes including extremes. No explicit-size workaround needed in the manifest.
+
 ## v33 — 2026-06-12 (pre-1.0 bug sweep)
 ### Fixed
 - illustrate.py --batch: a missing/invalid manifest, or a manifest job pointing at

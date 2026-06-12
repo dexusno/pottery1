@@ -34,6 +34,7 @@ Requires OPENAI_API_KEY; gpt-image-2 needs OpenAI Org Verification.
 """
 import base64
 import json
+import math
 import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -41,17 +42,25 @@ from pathlib import Path
 from PIL import Image
 from openai import OpenAI
 
-MAX_LONG = 1024  # ceiling for the longest side of generated figures
-MIN_LONG = 512   # floor (never generate smaller than this)
+MAX_LONG = 1024      # target ceiling for the longest side of generated figures
+MIN_LONG = 512       # pre-floor target floor for the longest side
+MIN_PIX = 655_360    # gpt-image-2 hard minimum total pixel budget
+MAX_PIX = 8_294_400  # gpt-image-2 hard maximum total pixel budget
 
 
 def snap16(v):
     return max(256, int(round(v / 16) * 16))
 
 
+def snap16_up(v):
+    return int(math.ceil(v / 16) * 16)
+
+
 def aspect_size(img_path):
     """Valid gpt-image-2 size: aspect matched to the image, long side scaled to
-    the crop's own resolution (2x longest side, clamped MIN_LONG..MAX_LONG)."""
+    the crop's own resolution (2x longest side, clamped MIN_LONG..MAX_LONG),
+    then scaled UP if needed to satisfy the API's minimum total pixel budget
+    (small/wide/tall crops would otherwise snap below it and be rejected)."""
     w, h = Image.open(img_path).size
     long_side = min(MAX_LONG, max(MIN_LONG, snap16(2 * max(w, h))))
     ratio = max(1 / 3, min(3.0, w / h))  # clamp to allowed aspect band
@@ -59,6 +68,14 @@ def aspect_size(img_path):
         W, H = long_side, snap16(long_side / ratio)
     else:
         W, H = snap16(long_side * ratio), long_side
+    if W * H < MIN_PIX:
+        f = (MIN_PIX / (W * H)) ** 0.5
+        if W >= H:  # scale long side, derive short to keep aspect <= 3 AND pixels >= floor
+            W = snap16_up(W * f)
+            H = snap16_up(max(W / 3.0, MIN_PIX / W))
+        else:
+            H = snap16_up(H * f)
+            W = snap16_up(max(H / 3.0, MIN_PIX / H))
     return f"{W}x{H}"
 
 
