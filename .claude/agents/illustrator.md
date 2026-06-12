@@ -25,7 +25,8 @@ Prompt per crop (reference inputs by index; change+preserve split):
 
 Run:
   `python scripts/illustrate.py work/<stem>/crops/<name>.png work/<stem>/crops/<name>_v2.png "<prompt>" --style-ref style/anchor.png --quality <q>`
-- `<q>` = high if label_critical else medium. Pass no size (auto-matched to the crop).
+- `<q>` = high if the crop is label_critical OR contains text (text garbles at
+  lower quality); else medium. Pass no size (auto-matched to the crop).
 - Content fidelity beats style match; if the anchor pulls a label-critical figure
   off, drop `--style-ref` for that figure.
 

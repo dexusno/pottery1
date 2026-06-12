@@ -40,10 +40,23 @@ def main():
         )
         page = context.new_page()
         page.goto(url, wait_until="networkidle")
+        # Don't trust networkidle alone: wait until web fonts are APPLIED and every
+        # image is fully decoded, or the PDF can render in fallback fonts / without
+        # figures. This is the difference between "usually fine" and "always right".
+        page.evaluate("document.fonts.ready")
+        page.evaluate(
+            """async () => {
+                const imgs = Array.from(document.images);
+                await Promise.all(imgs.map(img => img.complete
+                    ? (img.decode ? img.decode().catch(() => {}) : Promise.resolve())
+                    : new Promise(res => { img.onload = img.onerror = res; })));
+            }"""
+        )
         page.pdf(
             path=str(out_pdf),
-            format="A4",
             print_background=True,
+            prefer_css_page_size=True,  # the page's own @page rule is authoritative
+            format="A4",                # fallback only if the HTML omits @page
             margin={"top": "0", "right": "0", "bottom": "0", "left": "0"},
         )
         print(f"pdf  -> {out_pdf}")

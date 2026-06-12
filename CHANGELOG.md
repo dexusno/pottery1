@@ -3,6 +3,26 @@
 All notable changes to the pottery → Norwegian PDF pipeline. Newest first.
 Versions track the scaffold iterations; all dated 2026-06-06 (built in one session).
 
+## v25 — 2026-06-12
+### Fixed (full-pipeline quality audit)
+- render_pdf.py: the PDF/PNG could render before Google Fonts had APPLIED or images
+  had decoded (networkidle is not enough) — now explicitly waits for
+  `document.fonts.ready` and full image decode. Eliminates intermittent
+  fallback-font / missing-figure renders.
+- render_pdf.py: `prefer_css_page_size=True` so the stylesheet's `@page` rule is
+  authoritative (A4 remains the fallback).
+- crop.py: invalid or degenerate crop boxes now FAIL loudly instead of silently
+  producing junk crops.
+- page.css: `print-color-adjust: exact` so background tints can never drop from the
+  PDF; `text-wrap: balance` so a title that genuinely must wrap balances its lines.
+- Mixed-marker lists (•, ☆, ✦, …): every item now renders in the SAME shared list
+  style — the source's marker character is kept in the text with a `nomark` class
+  (no doubled bullet, hanging indent) instead of being pulled into a separately
+  styled block.
+- layout-builder: pages declare `<html lang="nb">` for correct Norwegian rendering.
+- illustrator: figures that CONTAIN TEXT now always generate at `--quality high`
+  (text garbles at lower quality), same as label-critical figures.
+
 ## v24 — 2026-06-06
 ### Changed
 - README: removed the Claude Code v2.1.154 / Opus 4.8 pin from Requirements, Usage,

@@ -15,6 +15,7 @@ Build `work/<stem>/page.html`:
 - Link the shared stylesheet and use ONLY its classes/variables — never hardcode
   colors, fonts, or spacing: `<link rel="stylesheet" href="../../styles/page.css">`.
   Anything missing belongs in page.css, not the page.
+- `<html lang="nb">` (Norwegian text renders/wraps correctly).
 - `<div class="page">` → `<h1 class="title">` (translated) → body in `<div class="content">`.
   Keep the title on ONE line — never copy a line break from the source; only let it
   wrap if it truly won't fit the width (then lower `--fs-title`, don't force a break).
@@ -27,6 +28,11 @@ Build `work/<stem>/page.html`:
   fill it sensibly. Scale figures/type DOWN for dense sheets and UP for sparse ones
   using the page.css variables (`--fig-hero`, `--fig-step`, `--fs-*`) — not inline
   overrides. No overflow to a second page; no large empty band.
+- Render every list item with the same shared `.bullets` style, whatever its marker
+  symbol in the source (•, ☆, ✦, –, numbers…): keep the source's marker character as
+  part of the item text and add class `nomark` to that `<li>` (suppresses the CSS
+  bullet so the marker isn't doubled), in the same list as its siblings — never pull
+  marked items out into a separately-styled block.
 - Do not add dividers, rules, or ornaments that aren't in the source.
 
 Render: `python scripts/render_pdf.py work/<stem>/page.html output/<stem>.pdf --png work/<stem>/page.png`

@@ -48,6 +48,13 @@ def main():
     for crop in spec.get("crops", []):
         name = crop["name"]
         left, top, right, bottom = crop["box"]
+        if not (0.0 <= left < right <= 1.0 and 0.0 <= top < bottom <= 1.0):
+            print(f"CROP FAILED: '{name}' has an invalid box {crop['box']} "
+                  "(need 0 <= left < right <= 1 and 0 <= top < bottom <= 1)")
+            sys.exit(1)
+        if (right - left) < 0.02 or (bottom - top) < 0.02:
+            print(f"CROP FAILED: '{name}' box {crop['box']} is degenerately small")
+            sys.exit(1)
         left = max(0.0, left - MARGIN)
         top = max(0.0, top - MARGIN)
         right = min(1.0, right + MARGIN)
