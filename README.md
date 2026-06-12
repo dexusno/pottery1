@@ -169,7 +169,11 @@ Finished PDFs land in `output/`.
 
 ## Customization
 
-**Language:** set the two lines at the top of `CLAUDE.md` — `TARGET LANGUAGE:` (any language, or `original` to skip translation entirely) and `UNITS:` (`metric` or `original`). Everything else below is about the look.
+**Language:** set the two lines at the top of `CLAUDE.md` — `TARGET LANGUAGE:` (any language, or `original` to skip translation entirely) and `UNITS:` (`metric` or `original`).
+
+**Models (cost vs quality):** two more lines in `CLAUDE.md` — `PREMIUM MODEL:` and `WORKFLOW MODEL:`. The premium model runs the three judgment-heavy agents (**extractor**, **layout-qc**, **qa-reviewer** — careful vision and critique, where quality is enforced); the workflow model runs the mechanical three (**illustrator**, **translator**, **layout-builder** — templated prompts, translation, HTML assembly). Defaults: `opus` / `sonnet`, which keeps the premium eye on the gates while the plumbing runs cheap. Values can be a model alias (`opus`, `sonnet`, `haiku`, `fable`), a full model ID, or `inherit` to follow the session's model (set both to `inherit` to disable tiering). The orchestrator passes the model explicitly on every delegation — the most reliable mechanism — and each delegation in the session trace shows which model ran, so you can verify the tiering on your first run. Note that the figures' art quality is unaffected by this choice: it comes from gpt-image-2 and your anchor.
+
+Everything else below is about the look.
 
 Everything that defines the look lives under `style\` and follows one rule: **if present use it, if absent ignore it** (the defaults apply unchanged).
 

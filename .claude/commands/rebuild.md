@@ -16,6 +16,11 @@ Always ignore files under work\, output\, scripts\, and .claude\.
 If ignore.txt exists at the root, treat each non-empty line that does not start
 with # as a filename to skip (applies to the no-arg run only).
 
+MODELS: read PREMIUM MODEL and WORKFLOW MODEL from CLAUDE.md. On EVERY subagent
+delegation below, pass the model parameter explicitly: extractor, layout-qc, and
+qa-reviewer get the PREMIUM model; illustrator, translator, and layout-builder get
+the WORKFLOW model. (`inherit` = pass no model parameter.)
+
 Before the first image: run `python scripts/stylegen.py` (regenerates
 styles/custom.css from optional style/fonts and style/palette.json; writes an
 empty stub when no overrides are present). If it fails, STOP and report.

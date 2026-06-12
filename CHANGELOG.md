@@ -3,6 +3,16 @@
 All notable changes to the Sheet2PDF pipeline (image sheets → translated A4 PDFs). Newest first.
 Versions track the scaffold iterations; all dated 2026-06-06 (built in one session).
 
+## v30 — 2026-06-12
+### Added
+- Model tiering via two settings in CLAUDE.md: `PREMIUM MODEL:` (default `opus`)
+  runs the judgment-heavy agents — extractor, layout-qc, qa-reviewer — and
+  `WORKFLOW MODEL:` (default `sonnet`) runs the mechanical ones — illustrator,
+  translator, layout-builder. Values: alias, full model ID, or `inherit` (both
+  `inherit` = no tiering). The orchestrator passes the model explicitly on every
+  subagent delegation (the reliable mechanism; agent frontmatter stays `inherit`).
+  Figure art quality is unaffected — it comes from gpt-image-2 + the anchor.
+
 ## v29 — 2026-06-12
 ### Added
 - Configurable output language: two plain settings at the top of CLAUDE.md —

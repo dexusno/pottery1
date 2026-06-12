@@ -10,6 +10,19 @@ UNITS: metric
   target language's number conventions; `original` keeps units exactly as written.
 The translator and qa-reviewer read these two settings.
 
+## Models (EDIT THESE TWO LINES per project)
+PREMIUM MODEL: opus
+WORKFLOW MODEL: sonnet
+
+- PREMIUM runs the judgment-heavy agents: **extractor, layout-qc, qa-reviewer**
+  (careful vision and critique — where output quality is enforced).
+- WORKFLOW runs the mechanical agents: **illustrator, translator, layout-builder**
+  (templated prompts, translation, HTML assembly).
+- Values: a model alias (`opus`, `sonnet`, `haiku`, `fable`), a full model ID
+  (e.g. `claude-opus-4-8`), or `inherit` to use the session's model.
+- The orchestrator passes the model EXPLICITLY on every subagent delegation per
+  this mapping. Set both to `inherit` to disable tiering entirely.
+
 ## Goal
 Rebuild each source image (handwritten notes, infographics, illustrated guides —
 any subject) as a beautiful, typeset **A4 PDF** with body text translated to
