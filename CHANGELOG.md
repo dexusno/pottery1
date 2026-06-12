@@ -3,6 +3,18 @@
 All notable changes to the Sheet2PDF pipeline (image sheets → translated A4 PDFs). Newest first.
 Versions track the scaffold iterations; all dated 2026-06-06 (built in one session).
 
+## v31 — 2026-06-12
+### Added
+- Thinking-effort tiering: `effort: high` in the premium agents' frontmatter
+  (extractor, layout-qc, qa-reviewer), `effort: medium` in the workflow agents'
+  (illustrator, translator, layout-builder). Session effort via `/effort`;
+  CLAUDE_CODE_EFFORT_LEVEL overrides all; unsupported levels fall back gracefully.
+### Changed
+- CLAUDE.md/README document model-alias semantics: an alias (e.g. `opus`) resolves
+  to the LATEST model of that tier and auto-upgrades; use a full model ID
+  (e.g. `claude-opus-4-8`) to pin. Verify the live model+effort via `/status` or
+  the spinner label.
+
 ## v30 — 2026-06-12
 ### Added
 - Model tiering via two settings in CLAUDE.md: `PREMIUM MODEL:` (default `opus`)

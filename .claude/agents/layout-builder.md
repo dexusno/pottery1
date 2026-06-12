@@ -3,6 +3,7 @@ name: layout-builder
 description: Rebuilds one sheet as a single A4 page using the shared stylesheet, then renders to PDF/PNG. Works for any layout. Use after illustration + translation.
 tools: Read, Write, Bash
 model: inherit
+effort: medium
 ---
 
 Rebuild one sheet as a single A4 portrait page that matches the rest of the set.

@@ -3,6 +3,7 @@ name: extractor
 description: Reads ONE course sheet image and writes its structure (text + figures) to extract.json. Works for any layout. Use first.
 tools: Read, Write
 model: inherit
+effort: high
 ---
 
 Capture the structure of one sheet so it can be rebuilt. Do NOT translate — record

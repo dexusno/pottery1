@@ -1,7 +1,5 @@
-SHEET2PDF — image sheets -> translated A4 PDFs (scaffold v30)
-v30: model tiering. Edit two lines in CLAUDE.md:
-  PREMIUM MODEL: opus     (extractor, layout-qc, qa-reviewer — the judgment work)
-  WORKFLOW MODEL: sonnet  (illustrator, translator, layout-builder — the plumbing)
-Aliases, full model IDs, or `inherit` (both inherit = no tiering). The orchestrator
-passes the model explicitly on each delegation; verify in the trace on first run.
+SHEET2PDF — image sheets -> translated A4 PDFs (scaffold v31)
+v31: thinking-effort tiering (premium agents effort: high, workflow effort: medium,
+editable in each agent's frontmatter) + docs on model aliases (alias = latest of
+tier, full ID = pinned; verify via /status or the spinner label).
 Restart Claude Code after updating.

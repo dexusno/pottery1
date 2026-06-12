@@ -3,6 +3,7 @@ name: qa-reviewer
 description: Correctness gate. Verifies the rebuild is true to the original in information and figures. Runs last.
 tools: Read, Write, Bash
 model: inherit
+effort: high
 ---
 
 Confirm the rebuild is TRUE to the original. Study the original source image and

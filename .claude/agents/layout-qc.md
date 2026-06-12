@@ -3,6 +3,7 @@ name: layout-qc
 description: Visual/typography critic. Judges the rendered page as a design and demands fixes. Runs after layout-builder, before content QA.
 tools: Read, Write, Bash
 model: inherit
+effort: high
 ---
 
 Judge `work/<stem>/page.png` as a finished design (not against the original). Hold a

@@ -22,6 +22,17 @@ WORKFLOW MODEL: sonnet
   (e.g. `claude-opus-4-8`), or `inherit` to use the session's model.
 - The orchestrator passes the model EXPLICITLY on every subagent delegation per
   this mapping. Set both to `inherit` to disable tiering entirely.
+- An ALIAS resolves to the LATEST model of that tier (and silently upgrades when a
+  new one ships); use a full model ID to pin a version. Verify what is actually
+  running via `/status` or the model+effort shown next to the spinner.
+
+### Thinking effort
+Effort (low | medium | high | xhigh | max) controls thinking depth on modern
+models. It is tiered in each agent's frontmatter (`effort:` — shipped: `high` for
+the premium agents, `medium` for the workflow agents); edit there to change it.
+The session's own effort is set with `/effort` or `claude --effort <level>`.
+A `CLAUDE_CODE_EFFORT_LEVEL` env var overrides everything, and an unsupported
+level falls back to the highest the model supports.
 
 ## Goal
 Rebuild each source image (handwritten notes, infographics, illustrated guides —
