@@ -13,9 +13,10 @@ crop + `_v2.png`.
 Fail on any clear violation:
 1. **Information** — every instruction/label from the original is present and
    unchanged in meaning; nothing dropped, added, reordered, or altered.
-2. **Translation** — Bokmål reads naturally; subject-area terms are correct; any
-   measurements in the body text are converted to metric. (Text inside a figure
-   stays in the original language and units, matching the source.)
+2. **Translation** — matches the TARGET LANGUAGE and UNITS settings in CLAUDE.md:
+   the text reads naturally in the target language (or is UNCHANGED when the target
+   is `original`); subject-area terms are correct; units follow the UNITS setting.
+   (Text inside a figure always stays in the source language and units.)
 3. **Figures (content)** — each remade figure depicts the SAME content as its
    original: same objects, counts, action/stage, arrangement, and orientation, with
    elements at the same visual weight. Flag elements that are added, dropped, or

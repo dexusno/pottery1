@@ -1,9 +1,19 @@
-# Image sheets → Norwegian PDF rebuild
+# Image sheets → translated PDF rebuild
+
+## Output language & units (EDIT THESE TWO LINES per project)
+TARGET LANGUAGE: Norwegian Bokmål
+UNITS: metric
+
+- TARGET LANGUAGE may be any language, or `original` to keep the source language
+  exactly as written (no translation).
+- UNITS: `metric` converts imperial measurements in body text to metric, using the
+  target language's number conventions; `original` keeps units exactly as written.
+The translator and qa-reviewer read these two settings.
 
 ## Goal
 Rebuild each source image (handwritten notes, infographics, illustrated guides —
 any subject) as a beautiful, typeset **A4 PDF** with body text translated to
-**Norwegian Bokmål**, every figure reimagined in ONE consistent illustration style
+the **TARGET LANGUAGE** set above, every figure reimagined in ONE consistent illustration style
 defined by the project's style anchor, while preserving each sheet's layout,
 structure, and the instructional meaning of every figure.
 
@@ -13,11 +23,12 @@ any text size, portrait or landscape. These rules are general: infer each sheet'
 structure from the source itself, never assume a fixed format.
 
 ## Hard rules
-1. **Translate to Bokmål, keeping common English words.** Translate all text —
-   including the title/header — into idiomatic Bokmål. But keep a word in English
-   when that is the form Norwegians actually use (an established anglicism), even if
-   a Norwegian equivalent exists. Judge by real-world Norwegian usage, not by whether
-   a translation is possible.
+1. **Translate to the TARGET LANGUAGE, keeping established loanwords.** Translate
+   all text — including the title/header — idiomatically into the target language.
+   Keep a word in its source form when that is what speakers of the target language
+   actually use (an established loanword), even if a native equivalent exists —
+   judge by real-world usage. If TARGET LANGUAGE is `original`, all text is kept
+   exactly as written (no translation).
 2. **Single A4 page.** Every deliverable is exactly one A4 portrait PDF per source
    image, named after the source file. Content must fit on that one page and fill it
    sensibly — scale figures/type down for dense sheets, up for sparse ones (via the
@@ -152,7 +163,9 @@ The main session is the orchestrator. Run `/rebuild` to process the folder.
 - `/style-anchor` → generate style candidates to choose from.
 
 ## Translation consistency
-Translate into idiomatic Bokmål using established ceramics terms. Where a term has
+Translate idiomatically into the target language using its established terms for
+the sheet's subject area. Where a term has
 more than one valid translation, pick one and use it consistently across the whole
-set. If a term has no settled Norwegian equivalent, choose the clearest option and
+set. If a term has no settled equivalent in the target language, choose the
+clearest option and
 add a `note` field in `translated.json` so it can be reviewed.

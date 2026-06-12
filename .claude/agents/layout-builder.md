@@ -18,7 +18,9 @@ Build `work/<stem>/page.html`:
   `<link rel="stylesheet" href="../../styles/custom.css">`  (always link both; custom
   carries optional font/palette overrides and may be an empty stub).
   Anything missing belongs in page.css, not the page.
-- `<html lang="nb">` (Norwegian text renders/wraps correctly).
+- `<html lang="…">` set to the BCP-47 code of the TARGET LANGUAGE in CLAUDE.md
+  (e.g. nb for Norwegian Bokmål; the source language's code when target is
+  `original`) so text renders and wraps correctly.
 - `<div class="page">` → `<h1 class="title">` (translated) → body in `<div class="content">`.
   Keep the title on ONE line — never copy a line break from the source; only let it
   wrap if it truly won't fit the width (then lower `--fs-title`, don't force a break).

@@ -1,7 +1,18 @@
 # Changelog
 
-All notable changes to the Sheet2PDF pipeline (image sheets → Norwegian A4 PDFs). Newest first.
+All notable changes to the Sheet2PDF pipeline (image sheets → translated A4 PDFs). Newest first.
 Versions track the scaffold iterations; all dated 2026-06-06 (built in one session).
+
+## v29 — 2026-06-12
+### Added
+- Configurable output language: two plain settings at the top of CLAUDE.md —
+  `TARGET LANGUAGE:` (any language, default Norwegian Bokmål, or `original` to keep
+  the source text exactly as written) and `UNITS:` (`metric` converts imperial →
+  metric with the target language's number conventions; `original` keeps units as
+  written). The translator, qa-reviewer, and layout-builder (html lang attribute)
+  all follow these settings; `original` makes the translator a faithful
+  pass-through. The loanword rule is now language-general (keep a word in its
+  source form when that's what the target language's speakers actually use).
 
 ## v28 — 2026-06-12
 ### Changed

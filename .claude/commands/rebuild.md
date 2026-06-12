@@ -1,5 +1,5 @@
 ---
-description: Rebuild course images into translated Norwegian PDFs. No args = all pending; names = just those (forced); "all" = full refresh.
+description: Rebuild image sheets into translated A4 PDFs (target language set in CLAUDE.md). No args = all pending; names = just those (forced); "all" = full refresh.
 argument-hint: [image names | all]
 ---
 

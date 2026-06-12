@@ -1,5 +1,5 @@
-SHEET2PDF — image sheets -> Norwegian A4 PDFs (scaffold v28)
-v28: project renamed Sheet2PDF; README de-pottery'd (generic tool, pottery kept
-only as the stated origin / default example look). Restart Claude Code after
-updating. If you rename the GitHub repo, update your remote:
-  git remote set-url origin https://github.com/dexusno/<new-name>.git
+SHEET2PDF — image sheets -> translated A4 PDFs (scaffold v29)
+v29: target language is now a setting. Edit the two lines at the top of CLAUDE.md:
+  TARGET LANGUAGE: <any language, or `original` for no translation>
+  UNITS: <metric | original>
+Defaults: Norwegian Bokmål + metric (unchanged behavior). Restart Claude Code.

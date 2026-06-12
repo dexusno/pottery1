@@ -1,6 +1,6 @@
-# Sheet2PDF — image sheets → Norwegian A4 PDFs
+# Sheet2PDF — image sheets → translated A4 PDFs
 
-> Rebuild image sheets — handwritten notes, infographics, illustrated guides, any subject — into clean, typeset **Norwegian A4 PDFs**: text translated, every figure repainted by AI in one consistent hand.
+> Rebuild image sheets — handwritten notes, infographics, illustrated guides, any subject — into clean, typeset **A4 PDFs in the language of your choice** (or the original): text translated, every figure repainted by AI in one consistent hand.
 
 [![Built with Claude Code](https://img.shields.io/badge/built%20with-Claude%20Code-B85C38)](https://docs.claude.com/en/docs/claude-code/overview)
 [![Images](https://img.shields.io/badge/figures-gpt--image--2-412991)](https://platform.openai.com/)
@@ -8,7 +8,7 @@
 [![Platform](https://img.shields.io/badge/platform-Windows-blue)](#setup)
 [![Output](https://img.shields.io/badge/output-single%20A4%20PDF-success)](#)
 
-A team of [Claude Code](https://docs.claude.com/en/docs/claude-code/overview) subagents turns a folder of course sheets into a matching set of handouts. Each sheet becomes **one A4 portrait PDF**: the body is translated to **Norwegian Bokmål** (with measurements converted to **metric**), and every figure is **regenerated in a single consistent style** from the original drawing — so a set of sheets that started as a mix of handwriting, clip-art, and infographics ends up looking like it came from one designer.
+A team of [Claude Code](https://docs.claude.com/en/docs/claude-code/overview) subagents turns a folder of course sheets into a matching set of handouts. Each sheet becomes **one A4 portrait PDF**: the body is translated to your **TARGET LANGUAGE** (default Norwegian Bokmål; measurements optionally converted to **metric**), and every figure is **regenerated in a single consistent style** from the original drawing — so a set of sheets that started as a mix of handwriting, clip-art, and infographics ends up looking like it came from one designer.
 
 ---
 
@@ -36,7 +36,7 @@ A team of [Claude Code](https://docs.claude.com/en/docs/claude-code/overview) su
 
 - **One consistent look** — every figure is repainted in the style of a single approved anchor image, so the whole set matches.
 - **Faithful, not invented** — figures reproduce the original's content exactly (same elements, same visual weight); only the rendering medium changes.
-- **Norwegian Bokmål** — all text translated idiomatically, keeping words Norwegians actually use in English, with imperial measurements converted to metric.
+- **Any target language — or none** — set `TARGET LANGUAGE` in `CLAUDE.md` to any language (default: Norwegian Bokmål) or to `original` to keep the source text untouched. Translation is idiomatic, keeps established loanwords, and a separate `UNITS` setting controls imperial→metric conversion.
 - **Single A4, always** — content is scaled to fit and fill exactly one A4 portrait page.
 - **Layout-aware** — infers each sheet's structure (steps, comparison columns, labeled diagram) instead of forcing a template.
 - **Fast on dense sheets** — figures generate concurrently (a 25-figure sheet drops from ~1 hour to ~15–20 minutes), generation size scales to each figure's printed size, and translation runs while figures generate.
@@ -64,7 +64,7 @@ Source sheet (.jpg / .png)
   ▼
 [3] illustrator  ──┐    repaints every figure via gpt-image-2 — ONE concurrent
   │ (in parallel)  │    batch (default 4 workers), size matched to each crop
-[4] translator   ──┘    text → Bokmål, common anglicisms kept, units → metric
+[4] translator   ──┘    text → TARGET LANGUAGE (or kept original), units per UNITS
   │
   ▼
 [5] layout-builder  ─── rebuilds the page from the shared CSS → A4 PDF + preview PNG
@@ -75,7 +75,7 @@ Source sheet (.jpg / .png)
 [7] qa-reviewer     ─── correctness gate vs the original: info, figures, style, layout
   │
   ▼
-Polished A4 PDF (Norwegian)
+Polished A4 PDF (target language)
 ```
 
 ### The agents
@@ -86,13 +86,13 @@ Polished A4 PDF (Norwegian)
 
 **`illustrator`** — Regenerates **every** figure. For each crop it calls **gpt-image-2** in edit mode with the original crop as the content to reproduce and `style\anchor.png` as the style to match, writing `<name>_v2.png` — all figures generate **concurrently** in one batch (default 4 workers; tune for your OpenAI rate limits). It reproduces the figure faithfully — same elements at the same visual weight, original text kept — changing only the medium. The original crop is input only and is never used as output. If the API errors (e.g. missing key), the run **stops loudly** instead of substituting the original.
 
-**`translator`** — Translates `extract.json` into `translated.json` as idiomatic Bokmål — title included — keeping a word in English where that is the form Norwegians actually use (an established anglicism), and converting imperial measurements to metric. Uncertain domain terms get a `note` flag.
+**`translator`** — Translates `extract.json` into `translated.json` per the `TARGET LANGUAGE` and `UNITS` settings in `CLAUDE.md`: idiomatic translation (title included) keeping established loanwords, with optional imperial→metric conversion — or a faithful pass-through when the target is `original`. Uncertain domain terms get a `note` flag.
 
 **`layout-builder`** — Rebuilds the page as `page.html` using **only** the shared stylesheet (no hardcoded styling), choosing a structure that matches the source. It embeds the regenerated `_v2.png` figures, keeps the title on one line, and scales content to fit and fill a single A4 portrait page, then renders the PDF + a preview PNG via headless Chromium.
 
 **`layout-qc`** — A visual/typography critic that judges the rendered PNG: A4 fit, vertical balance, alignment, no stray decoration, consistent palette/fonts. It writes a PASS/FAIL punch-list; the orchestrator loops layout-builder ⇄ layout-qc until it passes (max 3).
 
-**`qa-reviewer`** — The correctness gate, run last. It compares the finished page and each figure against the original: information completeness, natural Bokmål with metric units, figure content (same elements, nothing added/dropped/over-emphasized), figure style (matches the anchor on white), and layout fidelity. A bad figure is sent back to be remade (≤2 tries) and then flagged — the original is never substituted.
+**`qa-reviewer`** — The correctness gate, run last. It compares the finished page and each figure against the original: information completeness, translation per the language/units settings, figure content (same elements, nothing added/dropped/over-emphasized), figure style (matches the anchor on white), and layout fidelity. A bad figure is sent back to be remade (≤2 tries) and then flagged — the original is never substituted.
 
 ### The shared design system
 
@@ -168,6 +168,8 @@ Finished PDFs land in `output/`.
 ---
 
 ## Customization
+
+**Language:** set the two lines at the top of `CLAUDE.md` — `TARGET LANGUAGE:` (any language, or `original` to skip translation entirely) and `UNITS:` (`metric` or `original`). Everything else below is about the look.
 
 Everything that defines the look lives under `style\` and follows one rule: **if present use it, if absent ignore it** (the defaults apply unchanged).
 
