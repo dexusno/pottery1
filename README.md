@@ -39,6 +39,7 @@ A team of [Claude Code](https://docs.claude.com/en/docs/claude-code/overview) su
 - **Norwegian Bokmål** — all text translated idiomatically, keeping words Norwegians actually use in English, with imperial measurements converted to metric.
 - **Single A4, always** — content is scaled to fit and fill exactly one A4 portrait page.
 - **Layout-aware** — infers each sheet's structure (steps, comparison columns, labeled diagram) instead of forcing a template.
+- **Fast on dense sheets** — figures generate concurrently (a 25-figure sheet drops from ~1 hour to ~15–20 minutes), generation size scales to each figure's printed size, and translation runs while figures generate.
 - **Two quality gates** — a visual/typography critic and a correctness reviewer that checks the rebuild against the original, figure by figure.
 - **Reproducible** — the look lives in a tracked style anchor and a shared stylesheet, portable across machines.
 - **Not just pottery** — the engine is domain-neutral: drop in any subject's sheets, swap the style anchor (and optionally fonts/palette, below) and the same pipeline produces a matching set.
@@ -61,10 +62,9 @@ Source sheet (.jpg / .png)
 [2] crop.py         ─── cuts each figure region out of the source image
   │
   ▼
-[3] illustrator     ─── repaints every figure in the anchor's style via gpt-image-2
-  │
-  ▼
-[4] translator      ─── text → Bokmål, keep common anglicisms, convert units to metric
+[3] illustrator  ──┐    repaints every figure via gpt-image-2 — ONE concurrent
+  │ (in parallel)  │    batch (default 4 workers), size matched to each crop
+[4] translator   ──┘    text → Bokmål, common anglicisms kept, units → metric
   │
   ▼
 [5] layout-builder  ─── rebuilds the page from the shared CSS → A4 PDF + preview PNG
@@ -84,7 +84,7 @@ Polished A4 PDF (Norwegian)
 
 **`crop.py`** — A plain script (not an agent). Cuts each crop box out of the source into `crops\<name>.png` to feed the illustrator.
 
-**`illustrator`** — Regenerates **every** figure. For each crop it calls **gpt-image-2** in edit mode with the original crop as the content to reproduce and `style\anchor.png` as the style to match, writing `<name>_v2.png`. It reproduces the figure faithfully — same elements at the same visual weight, original text kept — changing only the medium. The original crop is input only and is never used as output. If the API errors (e.g. missing key), the run **stops loudly** instead of substituting the original.
+**`illustrator`** — Regenerates **every** figure. For each crop it calls **gpt-image-2** in edit mode with the original crop as the content to reproduce and `style\anchor.png` as the style to match, writing `<name>_v2.png` — all figures generate **concurrently** in one batch (default 4 workers; tune for your OpenAI rate limits). It reproduces the figure faithfully — same elements at the same visual weight, original text kept — changing only the medium. The original crop is input only and is never used as output. If the API errors (e.g. missing key), the run **stops loudly** instead of substituting the original.
 
 **`translator`** — Translates `extract.json` into `translated.json` as idiomatic Bokmål — title included — keeping a word in English where that is the form Norwegians actually use (an established anglicism), and converting imperial measurements to metric. Uncertain ceramics terms get a `note` flag.
 
@@ -190,7 +190,17 @@ The palette roles (all `#RRGGBB`):
 }
 ```
 
-`primary` = titles/headings/accents · `secondary` = sub-headings/step names · `ink` = body text · `page_bg` = page and figure background · `tint` = row shading.
+What each role literally changes on the page:
+
+| Role | What you will see change |
+|---|---|
+| `primary` | The big page title, section headings, and accent marks. |
+| `secondary` | Step names, sub-headings, and small markers. |
+| `ink` | All body text and bullet lines. Keep it dark — it has to read at print size. |
+| `page_bg` | The paper color behind **everything, including figures**. Keep it `#FFFFFF` unless you also change the figure background in CLAUDE.md's CONSTRAINTS line — figures are generated on white, so a non-white page puts a visible white box around every figure. |
+| `tint` | The faint shading on alternating rows in step tables. Keep it very close to `page_bg` — it should be barely visible. |
+
+**Don't want to pick colors by hand?** Run `/style-anchor palette` — it derives a suggested `palette.json` from the anchor image's own colors (role-aware: it picks a readable ink, a saturated mid-tone primary, a different-hue secondary, and guards text contrast). It never overwrites an existing `palette.json`; if one exists it writes `palette.json.suggested` for you to review. The suggestion is a starting point — edit it to taste.
 
 At the start of every `/rebuild`, `scripts\stylegen.py` regenerates `styles\custom.css` from whatever is present (an empty stub when nothing is). Pages link `page.css` then `custom.css`, so overrides win by cascade. To re-theme an entire project for a different subject: replace the anchor, optionally drop in fonts and a palette, edit the ART DIRECTION block in `CLAUDE.md`, and `/rebuild all`.
 
@@ -201,6 +211,7 @@ At the start of every `/rebuild`, `scripts\stylegen.py` regenerates `styles\cust
 | Command | What it does |
 |---|---|
 | `/style-anchor [count]` | Generate style candidates; copy your favourite to `style/anchor.png`. |
+| `/style-anchor palette` | Suggest a `style/palette.json` from the anchor's colors (never overwrites an existing one). |
 | `/rebuild` | Process all pending images. |
 | `/rebuild <name…>` | Process specific images (forced re-run). |
 | `/rebuild all` | Full refresh of the whole set. |

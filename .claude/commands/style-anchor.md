@@ -3,6 +3,10 @@ description: Generate warm studio-sketch style-anchor candidates so you can pick
 argument-hint: [count]
 ---
 
+If $ARGUMENTS contains `palette`: run `python scripts/palettegen.py`, show its
+output, and STOP (it suggests a style/palette.json derived from the anchor's
+colors; never overwrites an existing palette.json — writes .suggested instead).
+
 Create the style anchor that locks every figure to one look.
 
 1. Ensure the `style\` folder exists.

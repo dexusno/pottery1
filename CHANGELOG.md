@@ -3,6 +3,30 @@
 All notable changes to the pottery → Norwegian PDF pipeline. Newest first.
 Versions track the scaffold iterations; all dated 2026-06-06 (built in one session).
 
+## v27 — 2026-06-12
+### Added (speed: ~3-4x faster on figure-heavy sheets, no quality change)
+- illustrate.py `--batch <manifest> [--workers 4] [--dry-run]`: all of a sheet's
+  figures now generate CONCURRENTLY in one call (same prompts, same quality, same
+  loud failure — every job attempted, any failure reported and exits non-zero).
+  The illustrator writes one manifest and makes one batch call instead of N
+  sequential calls.
+- Generation size now scales to each crop's own resolution (2x its longest side,
+  clamped 512..1024): small icons generate smaller/faster/cheaper; detailed figures
+  keep full resolution.
+- The translator now runs IN PARALLEL with the illustrator (both depend only on
+  extract.json), saving minutes on text-heavy sheets.
+### Added (customization)
+- scripts/palettegen.py + `/style-anchor palette`: suggests a style/palette.json
+  derived from the anchor's own colors — role-aware (readable ink, saturated
+  mid-tone primary, different-hue secondary, faint tint) with WCAG contrast guards
+  (ink >= 7:1, primary/secondary >= 3:1 on the page). Deterministic; never
+  overwrites an existing palette.json (writes palette.json.suggested instead);
+  page_bg stays #FFFFFF to match the figure backgrounds.
+### Changed
+- README: concrete "what you will literally see change" descriptions for each
+  palette role (with the page_bg/figure-box warning), the parallel pipeline in the
+  diagram, and the new command.
+
 ## v26 — 2026-06-12
 ### Added
 - Per-project customization, all "if present use, if absent ignore":

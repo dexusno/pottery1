@@ -59,6 +59,8 @@ Defaults via Google Fonts: titles "Fraunces", body "Nunito" (system-ui fallback)
   (a single font file with any name is used for BOTH roles).
 - `style\palette.json` — any subset of {"primary","secondary","ink","page_bg",
   "tint"} as #RRGGBB (see style\palette.json.example). Omitted keys keep defaults.
+`/style-anchor palette` suggests a palette.json derived from the anchor's own
+colors (role-aware, contrast-guarded; never overwrites an existing palette.json).
 Every page links `page.css` then `custom.css`, so overrides win by cascade; with
 nothing present, custom.css is an empty stub and the defaults apply unchanged.
 The layout-builder never hardcodes colors, fonts, or spacing, so every page in a
@@ -121,18 +123,20 @@ gpt-image-2 has no transparent background, so figures render on solid white.
 1. **extractor** reads the image → `work\<stem>\extract.json` (text + crops, each
    crop with `depicts`, `label_critical`, and a `preserve` list).
 2. **crop**: `python scripts\crop.py <image> work\<stem>\crops work\<stem>\extract.json`.
-3. **illustrator** redraws every crop in the house style against `style\anchor.png`
-   → `work\<stem>\crops\<name>_v2.png` candidates. Uses gpt-image-2 with
-   `quality: high` for label-critical figures, `medium` otherwise; references the
-   inputs by index and restates each crop's preserve list (per gpt-image-2 docs).
-4. **translator** → `work\<stem>\translated.json` (title unchanged).
-5. **layout-builder** → `page.html` (house palette + fonts, preferring approved
-   `_v2.png`), then
+3. **illustrator ∥ translator** — run in PARALLEL (each needs only extract.json):
+   - illustrator redraws every crop in the house style against `style\anchor.png`
+     → `work\<stem>\crops\<name>_v2.png`, in ONE concurrent batch
+     (`illustrate.py --batch`, default 4 workers). gpt-image-2 `quality: high` for
+     label-critical or text-bearing figures, `medium` otherwise; size auto-matched
+     to each crop's aspect and resolution.
+   - translator → `work\<stem>\translated.json`.
+4. **layout-builder** → `page.html` (house palette + fonts, embedding the `_v2.png`
+   figures), then
    `python scripts\render_pdf.py work\<stem>\page.html output\<stem>.pdf --png work\<stem>\page.png`.
-6. **layout-qc** (visual/typography critic) inspects `page.png` → `qa_layout.md`.
+5. **layout-qc** (visual/typography critic) inspects `page.png` → `qa_layout.md`.
    On FAIL, the layout-builder applies the punch-list and re-renders; repeat until
    PASS (max 3 iterations).
-7. **qa-reviewer** compares source vs `page.png` for content/accuracy →
+6. **qa-reviewer** compares source vs `page.png` for content/accuracy →
    `work\<stem>\qa.md`; strict drift check on label-critical figures. On FAIL, fix
    and re-render.
 

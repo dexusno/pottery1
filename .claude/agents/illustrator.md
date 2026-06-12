@@ -23,10 +23,15 @@ Prompt per crop (reference inputs by index; change+preserve split):
     words, spelling, and placement (do not translate it)."
   [CONSTRAINTS] "Plain solid white background, centered. No border or frame."
 
-Run:
-  `python scripts/illustrate.py work/<stem>/crops/<name>.png work/<stem>/crops/<name>_v2.png "<prompt>" --style-ref style/anchor.png --quality <q>`
+Run ONE BATCH for all crops (they generate concurrently — much faster):
+1. Write `work/<stem>/illustrate_manifest.json`: a JSON list with one job per crop:
+   {"content": "work/<stem>/crops/<name>.png", "out": "work/<stem>/crops/<name>_v2.png",
+    "prompt": "<full prompt>", "quality": "<q>", "style_ref": "style/anchor.png"}
+2. `python scripts/illustrate.py --batch work/<stem>/illustrate_manifest.json --workers 4`
 - `<q>` = high if the crop is label_critical OR contains text (text garbles at
-  lower quality); else medium. Pass no size (auto-matched to the crop).
+  lower quality); else medium. Omit size (auto: aspect- and resolution-matched).
+- Single-figure REMAKES (qa retries) use single mode:
+  `python scripts/illustrate.py <crop> <out> "<prompt>" --style-ref style/anchor.png --quality high`
 - Content fidelity beats style match; if the anchor pulls a label-critical figure
   off, drop `--style-ref` for that figure.
 

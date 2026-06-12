@@ -10,8 +10,19 @@ EDIT (restyle a figure, optionally against a style reference):
   Content image is Image 1 (what to depict); style ref, if given, is Image 2 (how
   it looks). Reference inputs by index in the prompt.
 
-  SIZE: if omitted in EDIT mode, it is derived from the content image's aspect
-  ratio (snapped to a valid gpt-image-2 size) so the figure is not distorted.
+BATCH (restyle many figures CONCURRENTLY -- much faster for multi-figure sheets):
+    python illustrate.py --batch <manifest.json> [--workers 4] [--dry-run]
+  manifest.json is a list of jobs:
+    [{"content": "<crop.png>", "out": "<out.png>", "prompt": "<...>",
+      "quality": "medium", "style_ref": "style/anchor.png", "size": null}, ...]
+  Jobs run in a thread pool (default 4 workers; raise/lower for your OpenAI rate
+  limits). All jobs are attempted; every failure is reported and the script exits
+  non-zero if ANY job failed. --dry-run prints the plan without calling the API.
+
+  SIZE: if omitted, it is derived from the content image -- aspect ratio matched
+  (so the figure is not distorted) and the long side scaled to the crop's own
+  resolution (2x the crop's longest side, clamped 512..1024, /16): small icons
+  generate smaller and faster; detailed figures keep full resolution.
 
 Notes:
 - input_fidelity is LOCKED on gpt-image-2 (always high); do NOT pass it.
@@ -22,27 +33,32 @@ Notes:
 Requires OPENAI_API_KEY; gpt-image-2 needs OpenAI Org Verification.
 """
 import base64
+import json
 import sys
+import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from PIL import Image
 from openai import OpenAI
 
-LONG = 1024  # longest side of generated figures
+MAX_LONG = 1024  # ceiling for the longest side of generated figures
+MIN_LONG = 512   # floor (never generate smaller than this)
+
+
+def snap16(v):
+    return max(256, int(round(v / 16) * 16))
 
 
 def aspect_size(img_path):
-    """Pick a valid gpt-image-2 size matching the image's aspect ratio."""
+    """Valid gpt-image-2 size: aspect matched to the image, long side scaled to
+    the crop's own resolution (2x longest side, clamped MIN_LONG..MAX_LONG)."""
     w, h = Image.open(img_path).size
-    ratio = w / h
-    ratio = max(1 / 3, min(3.0, ratio))  # clamp to allowed aspect band
-
-    def snap(v):
-        return max(256, int(round(v / 16) * 16))
-
+    long_side = min(MAX_LONG, max(MIN_LONG, snap16(2 * max(w, h))))
+    ratio = max(1 / 3, min(3.0, w / h))  # clamp to allowed aspect band
     if w >= h:
-        W, H = LONG, snap(LONG / ratio)
+        W, H = long_side, snap16(long_side / ratio)
     else:
-        W, H = snap(LONG * ratio), LONG
+        W, H = snap16(long_side * ratio), long_side
     return f"{W}x{H}"
 
 
@@ -53,6 +69,67 @@ def write_b64(item, out_path):
         sys.exit(1)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_bytes(base64.b64decode(b64))
+
+
+def edit_one(client, content_path, out_path, prompt, quality, style_ref, size=None):
+    """One restyle call. Returns (out_path, size, seconds). Raises on failure."""
+    content_path, out_path = Path(content_path), Path(out_path)
+    size = size or aspect_size(content_path)
+    files = [open(content_path, "rb")]
+    sr = Path(style_ref) if style_ref else None
+    if sr and sr.exists():
+        files.append(open(sr, "rb"))
+    image_arg = files if len(files) > 1 else files[0]
+    t0 = time.time()
+    try:
+        resp = client.images.edit(model="gpt-image-2", image=image_arg,
+                                  prompt=prompt, size=size, quality=quality)
+    finally:
+        for f in files:
+            f.close()
+    write_b64(resp.data[0], out_path)
+    return out_path, size, time.time() - t0
+
+
+def run_batch(client, manifest_path, workers, dry_run):
+    jobs = json.loads(Path(manifest_path).read_text(encoding="utf-8"))
+    if not isinstance(jobs, list) or not jobs:
+        print("BATCH FAILED: manifest must be a non-empty JSON list of jobs")
+        sys.exit(1)
+    for i, j in enumerate(jobs):
+        for key in ("content", "out", "prompt"):
+            if key not in j:
+                print(f"BATCH FAILED: job {i} missing required key '{key}'")
+                sys.exit(1)
+    if dry_run:
+        print(f"plan: {len(jobs)} job(s), {workers} worker(s)")
+        for j in jobs:
+            size = j.get("size") or aspect_size(j["content"])
+            print(f"  {j['content']} -> {j['out']}  "
+                  f"(size={size}, quality={j.get('quality', 'medium')}, "
+                  f"style_ref={j.get('style_ref') or '-'})")
+        return
+    failures = []
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        futs = {pool.submit(edit_one, client, j["content"], j["out"], j["prompt"],
+                            j.get("quality", "medium"), j.get("style_ref"),
+                            j.get("size")): j for j in jobs}
+        for fut in as_completed(futs):
+            j = futs[fut]
+            try:
+                out_path, size, secs = fut.result()
+                print(f"[ok]   {Path(out_path).name}  ({size}, "
+                      f"{j.get('quality', 'medium')}, {secs:.1f}s)")
+            except SystemExit:
+                failures.append((j["out"], "no image data returned"))
+                print(f"[FAIL] {Path(j['out']).name}: no image data returned")
+            except Exception as e:
+                failures.append((j["out"], str(e)))
+                print(f"[FAIL] {Path(j['out']).name}: {e}")
+    if failures:
+        print(f"GENERATION FAILED (batch): {len(failures)} of {len(jobs)} job(s) failed")
+        sys.exit(1)
+    print(f"batch complete: {len(jobs)} figure(s) regenerated")
 
 
 def pop_flag(rest, flag, default=None):
@@ -67,6 +144,18 @@ def main():
     if not args:
         print(__doc__)
         sys.exit(2)
+    if args[0] == "--batch":
+        rest = args[1:]
+        if not rest:
+            print("usage: python illustrate.py --batch <manifest.json> [--workers 4] [--dry-run]")
+            sys.exit(2)
+        workers_s, rest = pop_flag(rest, "--workers", "4")
+        dry = "--dry-run" in rest
+        rest = [a for a in rest if a != "--dry-run"]
+        client = None if dry else OpenAI()
+        run_batch(client, rest[0], max(1, int(workers_s)), dry)
+        return
+
     client = OpenAI()
 
     if args[0] == "--generate":
