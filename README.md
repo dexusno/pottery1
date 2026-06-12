@@ -179,7 +179,7 @@ Everything that defines the look lives under `style\` and follows one rule: **if
 
 | File | Controls | Behavior |
 |---|---|---|
-| `style\anchor.png` | Illustration style | Passed to gpt-image-2 on every figure; swap it (via `/style-anchor`) and the whole set's art changes. |
+| `style\anchor.png` | Illustration style | Passed to gpt-image-2 on every figure; swap it (via `/style-anchor`) and the whole set's art changes. Size-independent — any reasonable PNG/JPG works; ~1024 px is the sweet spot (it rides along on every figure call, so a huge file slows and costs more per figure). |
 | `style\fonts\title.ttf` / `.otf` | Title font | Used for titles/headings instead of the default (Fraunces). |
 | `style\fonts\body.ttf` / `.otf` | Body font | Used for body text instead of the default (Nunito). A single font file with any name is used for **both** roles. |
 | `style\palette.json` | Colors | Any subset of the five roles below; omitted keys keep their defaults. See `style\palette.json.example`. |
@@ -216,7 +216,7 @@ At the start of every `/rebuild`, `scripts\stylegen.py` regenerates `styles\cust
 
 | Command | What it does |
 |---|---|
-| `/style-anchor [count]` | Generate style candidates; copy your favourite to `style/anchor.png`. |
+| `/style-anchor [count] [guidance…]` | Generate style candidates; optional text guides subject and/or style (e.g. `/style-anchor 4 garden tools, more ink less wash`). Copy your favourite to `style/anchor.png`. |
 | `/style-anchor palette` | Suggest a `style/palette.json` from the anchor's colors (never overwrites an existing one). |
 | `/rebuild` | Process all pending images. |
 | `/rebuild <name…>` | Process specific images (forced re-run). |

@@ -3,6 +3,18 @@
 All notable changes to the Sheet2PDF pipeline (image sheets → translated A4 PDFs). Newest first.
 Versions track the scaffold iterations; all dated 2026-06-06 (built in one session).
 
+## v32 — 2026-06-12
+### Fixed
+- /style-anchor had a garbled sentence with a leftover pottery-specific subject
+  fragment from the v26 genericization. Rewritten clean and domain-neutral.
+### Added
+- /style-anchor now takes optional text guidance after the count:
+  `/style-anchor [count] [subject/style guidance…]` — steer the candidates'
+  subject matter, the style, or both. Without guidance it picks neutral subjects
+  from the project's own sheets.
+- README documents anchor requirements: size-independent (any reasonable PNG/JPG;
+  ~1024 px recommended since the anchor is sent with every figure call).
+
 ## v31 — 2026-06-12
 ### Added
 - Thinking-effort tiering: `effort: high` in the premium agents' frontmatter
