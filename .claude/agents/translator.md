@@ -14,8 +14,7 @@ translation, no rewording) — only apply the UNITS rule if UNITS is `metric`.
 Given `work\<stem>\extract.json`, write `work\<stem>\translated.json` with the
 identical structure, but:
 
-1. Translate `title.text` too, applying the anglicism rule below — it is no longer
-   kept English by default.
+1. Translate `title.text` like all other text (the loanword rule below applies).
 2. Translate every `blocks[].text` idiomatically into the target language. Keep it
    concise and instructional — these are course handouts, not prose.
 3. Preserve numbering, order, ids, groups, anchors, and the entire `crops` array
@@ -29,12 +28,10 @@ identical structure, but:
    becomes its metric equivalent (inches/feet → cm/mm, oz/lb → g/kg,
    cups/tbsp/tsp/fl oz → ml/l, °F → °C), rounded sensibly (no false precision),
    formatted with the target language's number conventions. If `original`: keep
-   every unit exactly as written. Leave
-   domain-standard units alone (units of art, not measurement — e.g. pyrometric
-   cone numbers in ceramics). Figures keep their
-   original text, so units inside a figure are not converted.
-6. If a term has no settled equivalent in the target language, choose the
-   clearest option and
-   add a sibling field `"note": "<your uncertainty / alternative>"` on that block
-   so Klaus can confirm it. Do not silently guess.
+   every unit exactly as written. Leave domain-standard units alone (units of art,
+   not measurement — e.g. pyrometric cone numbers in ceramics). Figures keep their
+   original text, so units inside a figure are never converted.
+6. If a term has no settled equivalent in the target language, choose the clearest
+   option and add a sibling field `"note": "<your uncertainty / alternative>"` on
+   that block so the user can confirm it. Do not silently guess.
 Write only the JSON file. Report the path and list any `note` flags you added.

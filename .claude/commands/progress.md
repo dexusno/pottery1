@@ -1,5 +1,5 @@
 ---
-description: Show the processing status of every course image (done/pending, QA result, ignored).
+description: Show the processing progress of every source image (done/pending, QA result, ignored). (Named /progress so it doesn't shadow Claude Code's built-in /status.)
 ---
 
 Read-only. Do not modify or create anything except by listing.

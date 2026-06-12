@@ -221,7 +221,7 @@ At the start of every `/rebuild`, `scripts\stylegen.py` regenerates `styles\cust
 | `/rebuild` | Process all pending images. |
 | `/rebuild <name…>` | Process specific images (forced re-run). |
 | `/rebuild all` | Full refresh of the whole set. |
-| `/status` | Table of done / pending / QA result / ignored. |
+| `/progress` | Table of done / pending / QA result / ignored. (Named to avoid shadowing Claude Code's built-in `/status`.) |
 
 ---
 
@@ -272,7 +272,7 @@ D:\<your-project>\
   style\anchor.png                approved style reference (tracked)
   scripts\                        crop.py, render_pdf.py, illustrate.py
   .claude\agents\                 the six subagents
-  .claude\commands\               /style-anchor, /rebuild, /status
+  .claude\commands\               /style-anchor, /rebuild, /progress
   .claude\settings.json.example   PowerShell + key template (copy to settings.json)
   work\<stem>\                    intermediates (gitignored)
   output\<stem>.pdf               deliverables (gitignored)

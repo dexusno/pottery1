@@ -3,6 +3,32 @@
 All notable changes to the Sheet2PDF pipeline (image sheets → translated A4 PDFs). Newest first.
 Versions track the scaffold iterations; all dated 2026-06-06 (built in one session).
 
+## v33 — 2026-06-12 (pre-1.0 bug sweep)
+### Fixed
+- illustrate.py --batch: a missing/invalid manifest, or a manifest job pointing at
+  a missing crop file, now fails loudly with a clean message BEFORE any API spend
+  (was: raw traceback, and a missing crop would only surface mid-batch).
+- translator: removed a hardcoded personal name ("Klaus" → "the user"); cleaned a
+  stale "no longer kept English" note and ragged line wraps.
+- extractor: "record the English exactly" → "record the source text exactly, in
+  its original language" (the engine is language-neutral).
+- illustrator description: "before translation" → "in parallel with the
+  translator" (matches the v27 pipeline).
+- CLAUDE.md: folder-layout root de-hardcoded (was D:\pottery); stylegen/palettegen
+  added to the scripts list; decorative-figure quality note now mentions the
+  text→high rule; /style-anchor selection line documents guidance + palette modes;
+  ragged wraps in Translation consistency smoothed.
+- status command wording genericized; rebuild path-style consistency.
+- Renamed the project's /status command to /progress — it shadowed Claude Code's
+  built-in /status (which shows the running model/effort), making the README's
+  "verify via /status" advice ambiguous. /status is now unambiguously the built-in.
+### Verified (no changes needed)
+- All scripts compile; crop.py, stylegen.py, palettegen.py fail loudly and exit
+  non-zero on every bad-input path; agent frontmatter complete (name, description,
+  tools, model, effort); full render regression passes with defaults AND with a
+  palette/font override, reverting cleanly; no stale tokens (keep-art, keep_english,
+  old palette vars, cream backgrounds, D:\pottery) anywhere.
+
 ## v32 — 2026-06-12
 ### Fixed
 - /style-anchor had a garbled sentence with a leftover pottery-specific subject

@@ -21,7 +21,7 @@ delegation below, pass the model parameter explicitly: extractor, layout-qc, and
 qa-reviewer get the PREMIUM model; illustrator, translator, and layout-builder get
 the WORKFLOW model. (`inherit` = pass no model parameter.)
 
-Before the first image: run `python scripts/stylegen.py` (regenerates
+Before the first image: run `python scripts\stylegen.py` (regenerates
 styles/custom.css from optional style/fonts and style/palette.json; writes an
 empty stub when no overrides are present). If it fails, STOP and report.
 

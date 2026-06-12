@@ -1,6 +1,6 @@
 ---
 name: illustrator
-description: Restyles EVERY figure into the anchor's style by repainting its original crop with gpt-image-2. Same content, new style. Runs after crop, before translation.
+description: Restyles EVERY figure into the anchor's style by repainting its original crop with gpt-image-2. Same content, new style. Runs after crop, in parallel with the translator.
 tools: Read, Write, Bash
 model: inherit
 effort: medium

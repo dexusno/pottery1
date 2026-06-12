@@ -107,7 +107,8 @@ gpt-image-2 (Image 1 = the crop = ground truth for WHAT is drawn; Image 2 =
 `style\anchor.png` = HOW it looks). It is a restyle, never a new invention. The
 extractor flags how strict to be:
 - **Decorative / illustrative** (`label_critical: false`): restyle freely; keep the
-  same subject and any meaningful counts. quality `medium`.
+  same subject and any meaningful counts. quality `medium` (`high` if it
+  contains text).
 - **Label-critical** (`label_critical: true`): the `preserve` list is law — same
   elements, counts, order, arrangement, orientation. quality `high`. Content
   fidelity beats stylistic match; if the anchor pulls the composition off, weight
@@ -143,7 +144,7 @@ Image generation uses **gpt-image-2** via `scripts\illustrate.py`. Requires
 `OPENAI_API_KEY`; gpt-image-2 is gated behind OpenAI Organization Verification.
 gpt-image-2 has no transparent background, so figures render on solid white.
 
-## Folder layout (project root = D:\pottery)
+## Folder layout (project root = wherever you run `claude`)
 - Source images at the **project root**: `*.jpg`, `*.jpeg`, `*.png`.
 - `styles\page.css` — the SHARED stylesheet every page links (palette, fonts,
   spacing, layout classes). The page look is defined here, not per page.
@@ -152,7 +153,8 @@ gpt-image-2 has no transparent background, so figures render on solid white.
   reimagined versions), `page.html`, `page.png`, `qa.md`.
 - `output\<stem>.pdf` — the finished deliverable.
 - `ignore.txt` (optional) — filenames to skip on a no-arg `/rebuild`; `#` = comment.
-- `scripts\crop.py`, `scripts\render_pdf.py`, `scripts\illustrate.py`.
+- `scripts\crop.py`, `scripts\render_pdf.py`, `scripts\illustrate.py`,
+  `scripts\stylegen.py`, `scripts\palettegen.py`.
 
 ## Pipeline (one image at a time)
 1. **extractor** reads the image → `work\<stem>\extract.json` (text + crops, each
@@ -183,13 +185,13 @@ The main session is the orchestrator. Run `/rebuild` to process the folder.
 - `/rebuild <name...>` → only those, forced.
 - `/rebuild all` → full refresh.
 
-- `/status` → done/pending, QA result, ignored.
-- `/style-anchor` → generate style candidates to choose from.
+- `/progress` → done/pending, QA result, ignored.
+- `/style-anchor [count] [guidance…]` → generate style candidates (optionally
+  guided); `/style-anchor palette` → suggest a palette from the anchor.
 
 ## Translation consistency
 Translate idiomatically into the target language using its established terms for
-the sheet's subject area. Where a term has
-more than one valid translation, pick one and use it consistently across the whole
-set. If a term has no settled equivalent in the target language, choose the
-clearest option and
-add a `note` field in `translated.json` so it can be reviewed.
+the sheet's subject area. Where a term has more than one valid translation, pick
+one and use it consistently across the whole set. If a term has no settled
+equivalent in the target language, choose the clearest option and add a `note`
+field in `translated.json` so it can be reviewed.

@@ -7,7 +7,7 @@ effort: high
 ---
 
 Capture the structure of one sheet so it can be rebuilt. Do NOT translate — record
-the English exactly. Sheets vary widely (any layout, any text size); describe what
+the source text exactly, in its original language. Sheets vary widely (any layout, any text size); describe what
 you see, don't assume a format.
 
 Write `work/<stem>/extract.json`:

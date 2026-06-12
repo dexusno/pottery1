@@ -30,8 +30,8 @@ Fail on any clear violation:
      (genuinely invented), or that is garbled, illegible, or misspelled vs the
      original.
 4. **Figures (style)** — each `_v2.png` matches the anchor's medium, palette, and
-   finish on a plain white background. Flag any that came
-   back as flat line-art or in the wrong tone.
+   finish on a plain white background. Flag any that came back as flat line-art or
+   in the wrong tone.
 5. **Layout fidelity** — order and label-to-figure relationships match the original.
 
 Write `work/<stem>/qa.md`: first line `RESULT: PASS` or `RESULT: FAIL`, then a short

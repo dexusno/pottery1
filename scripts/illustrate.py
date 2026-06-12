@@ -92,7 +92,14 @@ def edit_one(client, content_path, out_path, prompt, quality, style_ref, size=No
 
 
 def run_batch(client, manifest_path, workers, dry_run):
-    jobs = json.loads(Path(manifest_path).read_text(encoding="utf-8"))
+    try:
+        jobs = json.loads(Path(manifest_path).read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        print(f"BATCH FAILED: manifest not found: {manifest_path}")
+        sys.exit(1)
+    except Exception as e:
+        print(f"BATCH FAILED: manifest is not valid JSON: {e}")
+        sys.exit(1)
     if not isinstance(jobs, list) or not jobs:
         print("BATCH FAILED: manifest must be a non-empty JSON list of jobs")
         sys.exit(1)
@@ -101,6 +108,9 @@ def run_batch(client, manifest_path, workers, dry_run):
             if key not in j:
                 print(f"BATCH FAILED: job {i} missing required key '{key}'")
                 sys.exit(1)
+        if not Path(j["content"]).is_file():
+            print(f"BATCH FAILED: job {i} content file not found: {j['content']}")
+            sys.exit(1)  # caught BEFORE any API spend
     if dry_run:
         print(f"plan: {len(jobs)} job(s), {workers} worker(s)")
         for j in jobs:
