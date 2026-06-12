@@ -25,6 +25,7 @@
 
   --fig-step:   38mm;   /* figures in step sheets */
   --fig-hero:   92mm;   /* prominent figures in comparison/hero layouts */
+  --fig-qa:     58mm;   /* lead illustration on a Q&A info-sheet */
 }
 
 * { box-sizing: border-box; }
@@ -77,3 +78,195 @@ html, body { margin: 0; padding: 0; }
 .leader { stroke: var(--charcoal); stroke-width: 0.5; fill: none; }
 
 .note { color: var(--sage); font-style: italic; }
+
+/* numbered-section-panel layout: four stacked panels, each pairing a main figure
+   with a numbered header + bullets, distributed to fill the page height. Small
+   callouts (a spot figure beside an italic note) sit inside a panel body. */
+.panels { display: flex; flex-direction: column; justify-content: space-between; flex: 1; gap: var(--gap); }
+.panel { display: grid; grid-template-columns: var(--fig-panel) 1fr; gap: var(--gap); align-items: center; }
+.figure.main { display: flex; align-items: center; justify-content: center; }
+.figure.main img { max-width: 100%; max-height: var(--fig-panel); width: auto; height: auto; display: block; }
+.panel-body { min-width: 0; }
+.panel-head { display: flex; align-items: center; gap: 3mm; margin: 0 0 2.5mm 0; }
+.panel-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 8mm; height: 8mm; border-radius: 50%;
+  background: var(--terracotta); color: #fff;
+  font-family: var(--font-title); font-weight: 700; font-size: var(--fs-step);
+  flex: none; line-height: 1;
+}
+.panel-title { font-family: var(--font-title); font-weight: 700; color: var(--sage); font-size: var(--fs-step); }
+.callout { display: flex; align-items: center; gap: 3mm; margin: 3mm 0 0 0; }
+.callout img { max-height: var(--fig-callout); max-width: var(--fig-callout); width: auto; height: auto; display: block; flex: none; }
+.callout .note { margin: 0; }
+.tagline {
+  font-family: var(--font-title); font-style: italic; font-weight: 500;
+  color: var(--terracotta); text-align: center; font-size: var(--fs-step);
+  margin: var(--gap) 0 0 0;
+}
+
+/* Q&A info-sheet layout: a lead illustration sits beside the title block at the
+   top, with the questions/answers flowing in two balanced columns below. */
+.qa-head { display: grid; grid-template-columns: var(--fig-qa) 1fr; gap: var(--gap); align-items: center; margin: 0 0 var(--gap) 0; }
+.qa-head .figure.lead { justify-content: flex-start; }
+.qa-head .figure.lead img { max-width: 100%; max-height: var(--fig-qa); }
+.qa-head .head-text { display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+.qa-head .title { text-align: left; margin: 0; }
+.qa-head .aside { margin: 3mm 0 0 0; }
+
+.qa-grid { columns: 2; column-gap: var(--gap); flex: 1; }
+.qa-block { break-inside: avoid; margin: 0 0 var(--gap) 0; }
+.qa-block .q {
+  font-family: var(--font-title); font-weight: 700; color: var(--terracotta);
+  font-size: var(--fs-step); margin: 0 0 2.5mm 0;
+}
+.qa-block .bullets { margin: 0; padding-left: 6mm; }
+.qa-block .bullets li { margin: 0 0 1.8mm 0; }
+.qa-block .aside { margin: 1.5mm 0 0 0; }
+
+.cone-list { list-style: none; margin: 0; padding: 0; }
+.cone-list li { padding: 2.2mm 3mm; display: block; }
+.cone-list li:nth-child(odd) { background: var(--row-tint); }
+.cone-list .cone { font-weight: 700; color: var(--sage); }
+
+/* Q&A sheet: sized for one lead figure + five compact Q&A blocks. The title
+   shares the top row with the figure, so it uses a smaller size to stay on one
+   line; blocks are spaced to fill the page. */
+.page.qa-sheet {
+  --fs-title: 23pt;
+  --fs-step: 19pt;
+  --fs-body: 14.5pt;
+  --lh-body: 1.5;
+  --gap: 10mm;
+  --fig-qa: 58mm;
+}
+.page.qa-sheet .qa-grid { column-gap: 10mm; column-fill: balance; }
+.page.qa-sheet .qa-block { margin-bottom: 7mm; }
+.page.qa-sheet .cone-list li { padding: 3.2mm 3mm; }
+
+/* dense sheets: tighten type and figures so four panels fit one A4 page */
+.page.dense {
+  --fs-title: 18pt;
+  --fs-step: 16pt;
+  --fs-body: 12.5pt;
+  --lh-body: 1.42;
+  --pad: 12mm;
+  --gap: 7mm;
+  --fig-panel: 46mm;
+  --fig-callout: 18mm;
+}
+
+/* ============================================================================
+   WORKSHEET layout (IMG_7449 "PØLSEBYGD KRUS"): the densest sheet in the set.
+   A single A4 packed with a top band, four info boxes, a ten-step grid, a
+   reminders box, six theme cards, and a bottom row of four boxes + footer.
+   Everything is driven by the variables below so it scales to fit one page.
+   This block is fully scoped to .page.worksheet — it adds no global rules.
+   ========================================================================== */
+.page.worksheet {
+  --pad:        7mm;
+  --gap:        2mm;
+  --radius:     2.2mm;
+  --fs-title:   22pt;
+  --fs-sub:     9.5pt;
+  --fs-sec:     10pt;   /* section/box headings */
+  --fs-body:    7pt;
+  --fs-label:   6.6pt;
+  --lh-body:    1.13;
+  --fig-ws-title: 14mm;  /* title-band corner figures */
+  --fig-ws-step:  12mm;  /* step figures */
+  --fig-ws-theme: 12mm;  /* theme-card mug figures */
+  --fig-ws-tool:  11mm;  /* tool-guide icons */
+  --ws-border:  0.3mm solid var(--sage);
+}
+.page.worksheet .content { justify-content: flex-start; gap: var(--gap); }
+
+/* shared box look for all boxed sections */
+.ws-box {
+  border: var(--ws-border); border-radius: var(--radius);
+  padding: 1.5mm 2mm; background: var(--page-bg);
+  display: flex; flex-direction: column; min-width: 0;
+}
+.ws-box.tint { background: var(--row-tint); }
+.ws-sec-head {
+  font-family: var(--font-title); font-weight: 700; color: var(--terracotta);
+  font-size: var(--fs-sec); letter-spacing: 0.3pt; margin: 0 0 0.7mm 0;
+  line-height: 1.05;
+}
+.ws-box .bullets, .page.worksheet .bullets { margin: 0; padding-left: 4mm; }
+.page.worksheet .bullets li { margin: 0 0 0.3mm 0; }
+.page.worksheet .note { color: var(--sage); font-style: italic; }
+.page.worksheet p { margin: 0 0 0.8mm 0; }
+
+/* top band: NAVN / DATO line, title block with corner figures, intro */
+.ws-fields {
+  display: flex; justify-content: space-between;
+  font-family: var(--font-body); font-weight: 700; color: var(--charcoal);
+  font-size: var(--fs-label); margin: 0 0 1mm 0;
+}
+.ws-fields .fill { display: inline-block; width: 38mm; border-bottom: 0.3mm solid var(--charcoal); }
+.ws-titleband { display: grid; grid-template-columns: var(--fig-ws-title) 1fr var(--fig-ws-title); align-items: center; gap: var(--gap); }
+.ws-titleband .figure img { max-height: var(--fig-ws-title); max-width: 100%; width: auto; height: auto; display: block; }
+.ws-titleband .figure.right { justify-content: flex-end; }
+.ws-titlecol { text-align: center; }
+.ws-titlecol .title { margin: 0; line-height: 1; }
+.ws-sub { font-family: var(--font-title); font-weight: 500; font-style: italic; color: var(--sage); font-size: var(--fs-sub); margin: 0.6mm 0 0 0; }
+.ws-intro { text-align: center; font-size: var(--fs-body); margin: 0.6mm 0 0 0; }
+
+/* generic equal-column row of boxes */
+.ws-row { display: grid; gap: var(--gap); align-items: stretch; }
+.ws-row.cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* info box with a small figure tucked top-right */
+.ws-box .ws-figmini { float: right; margin: 0 0 1mm 2mm; }
+.ws-box .ws-figmini img { max-height: 13mm; max-width: 20mm; width: auto; height: auto; display: block; }
+.ws-checklist { list-style: none; margin: 0; padding: 0; }
+.ws-checklist li { position: relative; padding-left: 4.5mm; margin: 0 0 0.6mm 0; }
+.ws-checklist li::before { content: "\2610"; position: absolute; left: 0; top: -0.2mm; color: var(--sage); font-size: 1.05em; }
+
+/* full-width section heading bar */
+.ws-band {
+  font-family: var(--font-title); font-weight: 700; color: var(--page-bg);
+  background: var(--terracotta); font-size: var(--fs-sec);
+  text-align: center; padding: 1.1mm 2mm; border-radius: var(--radius);
+  letter-spacing: 0.4pt; margin: 0;
+}
+
+/* steps grid 5 across; the reminders box spans the trailing slots */
+.ws-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--gap); }
+.ws-step { border: var(--ws-border); border-radius: var(--radius); padding: 1.3mm; display: flex; flex-direction: column; min-width: 0; }
+.ws-step-head { display: flex; align-items: baseline; gap: 1.4mm; margin: 0 0 0.6mm 0; }
+.ws-step-num {
+  font-family: var(--font-title); font-weight: 700; color: var(--terracotta);
+  font-size: var(--fs-sec); line-height: 1; flex: none;
+}
+.ws-step-name { font-family: var(--font-title); font-weight: 700; color: var(--sage); font-size: var(--fs-label); line-height: 1.05; letter-spacing: 0.2pt; }
+.ws-step .figure { margin: 0.4mm 0; }
+.ws-step .figure img { max-height: var(--fig-ws-step); max-width: 100%; width: auto; height: auto; display: block; margin: 0 auto; }
+.ws-step .ws-tip { color: var(--terracotta); font-style: italic; margin-top: auto; }
+.ws-reminders { grid-column: span 2; }
+
+/* theme cards row of six */
+.ws-themes { display: grid; grid-template-columns: repeat(6, 1fr); gap: var(--gap); }
+.ws-theme { border: var(--ws-border); border-radius: var(--radius); padding: 1.4mm; text-align: center; display: flex; flex-direction: column; align-items: center; min-width: 0; }
+.ws-theme .figure img { max-height: var(--fig-ws-theme); max-width: 100%; width: auto; height: auto; display: block; }
+.ws-theme-label { font-family: var(--font-title); font-weight: 700; color: var(--terracotta); font-size: var(--fs-label); margin: 0.8mm 0 0.6mm 0; line-height: 1.05; }
+.ws-theme-cap { font-size: var(--fs-label); line-height: 1.18; }
+
+/* tool guide: row of icon + label */
+.ws-tools { display: flex; justify-content: space-between; gap: 0.8mm; }
+.ws-tool { text-align: center; flex: 1; min-width: 0; }
+.ws-tool .figure img { max-height: var(--fig-ws-tool); max-width: 100%; width: auto; height: auto; display: block; margin: 0 auto; }
+.ws-tool-label { font-size: 6pt; line-height: 1.05; margin-top: 0.6mm; word-break: break-word; hyphens: auto; }
+
+/* design-plan sketch box */
+.ws-sketch { flex: 1; min-height: 9mm; border: 0.3mm dashed var(--sage); border-radius: var(--radius); margin-top: 1mm; }
+.ws-donts-head { display: flex; align-items: center; gap: 2mm; }
+.ws-donts-head .figure img { max-height: 7mm; width: auto; display: block; }
+
+/* footer slogan */
+.ws-footer {
+  font-family: var(--font-title); font-style: italic; font-weight: 700;
+  color: var(--terracotta); text-align: center; font-size: var(--fs-sec);
+  margin: 0; padding: 0.6mm 0 0 0; letter-spacing: 0.3pt;
+}
