@@ -13,7 +13,10 @@ missing `_v2.png` is an error: STOP and report.
 
 Build `work/<stem>/page.html`:
 - Link the shared stylesheet and use ONLY its classes/variables — never hardcode
-  colors, fonts, or spacing: `<link rel="stylesheet" href="../../styles/page.css">`.
+  colors, fonts, or spacing:
+  `<link rel="stylesheet" href="../../styles/page.css">`
+  `<link rel="stylesheet" href="../../styles/custom.css">`  (always link both; custom
+  carries optional font/palette overrides and may be an empty stub).
   Anything missing belongs in page.css, not the page.
 - `<html lang="nb">` (Norwegian text renders/wraps correctly).
 - `<div class="page">` → `<h1 class="title">` (translated) → body in `<div class="content">`.

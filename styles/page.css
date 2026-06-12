@@ -3,12 +3,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Nunito:wght@400;600;700&display=swap');
 
 :root {
-  --terracotta: #B85C38;
-  --cream:      #F7F0E6;
-  --page-bg:    #FFFFFF;
-  --sage:       #8C9A7B;
-  --charcoal:   #3A3330;
-  --row-tint:   #ECEFE6;
+  /* Palette (override any of these via style/palette.json -> styles/custom.css) */
+  --primary:    #B85C38;   /* titles, headings, accents */
+  --secondary:  #8C9A7B;   /* sub-headings, step names, markers */
+  --ink:        #3A3330;   /* body text */
+  --page-bg:    #FFFFFF;   /* page background */
+  --tint:       #ECEFE6;   /* row shading */
 
   --font-title: 'Fraunces', Georgia, serif;
   --font-body:  'Nunito', system-ui, sans-serif;
@@ -34,7 +34,7 @@ html, body { margin: 0; padding: 0; }
 .page {
   width: 210mm; min-height: 297mm;
   background: var(--page-bg);
-  color: var(--charcoal);
+  color: var(--ink);
   font-family: var(--font-body);
   font-size: var(--fs-body);
   line-height: var(--lh-body);
@@ -44,7 +44,7 @@ html, body { margin: 0; padding: 0; }
 
 .title {
   font-family: var(--font-title); font-weight: 700;
-  color: var(--terracotta); font-size: var(--fs-title);
+  color: var(--primary); font-size: var(--fs-title);
   text-align: center; margin: 0 0 var(--gap) 0; letter-spacing: 0.2pt;
   text-wrap: balance;   /* if a long title must wrap, balance the lines */
 }
@@ -57,8 +57,8 @@ html, body { margin: 0; padding: 0; }
 .step-grid { display: grid; grid-template-columns: 34mm 1fr 42mm; gap: var(--gap); }
 .row { display: contents; }
 .row > * { padding: 3mm 0; }
-.row.tint > * { background: var(--row-tint); }
-.step-name { font-family: var(--font-title); font-weight: 700; color: var(--sage); font-size: var(--fs-step); }
+.row.tint > * { background: var(--tint); }
+.step-name { font-family: var(--font-title); font-weight: 700; color: var(--secondary); font-size: var(--fs-step); }
 .bullets { margin: 0; padding-left: 6mm; }
 .bullets li { margin: 0 0 2.5mm 0; }
 .bullets li.nomark { list-style: none; margin-left: -6mm; padding-left: 6mm; text-indent: -6mm; }  /* own marker char; hanging indent */
@@ -69,13 +69,13 @@ html, body { margin: 0; padding: 0; }
 .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 14mm; align-items: start; }
 .col { text-align: center; }
 .col .bullets { text-align: left; display: inline-block; }
-.col .heading { font-family: var(--font-title); font-weight: 700; color: var(--terracotta); font-size: var(--fs-step); margin: 4mm 0; letter-spacing: 0.5pt; }
+.col .heading { font-family: var(--font-title); font-weight: 700; color: var(--primary); font-size: var(--fs-step); margin: 4mm 0; letter-spacing: 0.5pt; }
 .figure.hero img { max-height: var(--fig-hero); }
 
 /* labeled-diagram layout */
 .diagram { position: relative; width: 100%; }
 .diagram .center { display: block; margin: 0 auto; max-width: 82%; height: auto; }
-.label { position: absolute; font-size: var(--fs-label); color: var(--charcoal); max-width: 42mm; }
-.leader { stroke: var(--charcoal); stroke-width: 0.5; fill: none; }
+.label { position: absolute; font-size: var(--fs-label); color: var(--ink); max-width: 42mm; }
+.leader { stroke: var(--ink); stroke-width: 0.5; fill: none; }
 
-.note { color: var(--sage); font-style: italic; }
+.note { color: var(--secondary); font-style: italic; }

@@ -3,6 +3,27 @@
 All notable changes to the pottery → Norwegian PDF pipeline. Newest first.
 Versions track the scaffold iterations; all dated 2026-06-06 (built in one session).
 
+## v26 — 2026-06-12
+### Added
+- Per-project customization, all "if present use, if absent ignore":
+  - `style/fonts/title.ttf|otf` and `style/fonts/body.ttf|otf` — custom fonts (one
+    font file with any name is used for both roles).
+  - `style/palette.json` — any subset of {primary, secondary, ink, page_bg, tint}
+    as #RRGGBB; omitted keys keep defaults. `style/palette.json.example` included.
+  - `scripts/stylegen.py` — runs at the start of every /rebuild, regenerates
+    `styles/custom.css` (empty stub when nothing is present; loud failure on a bad
+    palette file). Pages link page.css then custom.css, so overrides win by cascade.
+### Changed
+- The engine is now domain-neutral: removed remaining pottery/ceramics assumptions
+  from CLAUDE.md and the agents (translator: "the sheet's subject area"; qa: anchor
+  medium/palette without naming a style; style-anchor: project-typical subjects).
+  The ART DIRECTION block is documented as the per-project default look, edited
+  together with the anchor.
+- Stylesheet palette variables renamed to semantic roles: --primary, --secondary,
+  --ink, --page-bg, --tint (was terracotta/sage/charcoal/row-tint).
+- README: new Customization section (anchor, fonts, palette, re-theming steps).
+- Verified: with no overrides present, output is pixel-identical to the defaults.
+
 ## v25 — 2026-06-12
 ### Fixed (full-pipeline quality audit)
 - render_pdf.py: the PDF/PNG could render before Google Fonts had APPLIED or images

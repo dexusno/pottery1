@@ -1,5 +1,5 @@
-POTTERY -> NORWEGIAN PDF — scaffold (v25)
-v25: pipeline quality audit. Render waits for fonts+images (no more fallback-font
-PDFs); CSS @page authoritative; crop boxes validated loudly; print-color safeguard;
-balanced title wrap; mixed-marker lists render uniformly (nomark hanging indent);
-lang="nb"; text-bearing figures generate at high quality. Restart Claude Code.
+POTTERY -> NORWEGIAN PDF — scaffold (v26)
+v26: domain-neutral engine + optional per-project overrides (all "if present use"):
+style/fonts/title|body.ttf|otf, style/palette.json (see palette.json.example),
+generated styles/custom.css via scripts/stylegen.py (runs in /rebuild).
+Defaults unchanged when nothing is present. Restart Claude Code after updating.

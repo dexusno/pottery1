@@ -16,6 +16,10 @@ Always ignore files under work\, output\, scripts\, and .claude\.
 If ignore.txt exists at the root, treat each non-empty line that does not start
 with # as a filename to skip (applies to the no-arg run only).
 
+Before the first image: run `python scripts/stylegen.py` (regenerates
+styles/custom.css from optional style/fonts and style/palette.json; writes an
+empty stub when no overrides are present). If it fails, STOP and report.
+
 For each selected image, in order, following CLAUDE.md:
 1. Delegate to the extractor subagent → work\<stem>\extract.json.
 2. Run: python scripts\crop.py <image> work\<stem>\crops work\<stem>\extract.json

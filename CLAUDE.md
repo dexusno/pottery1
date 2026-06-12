@@ -1,10 +1,10 @@
-# Pottery course sheets → Norwegian PDF rebuild
+# Image sheets → Norwegian PDF rebuild
 
 ## Goal
-Rebuild each source image (handwritten notes, infographics, illustrated guides
-for a ceramics course) as a beautiful, typeset **A4 PDF** with body text
-translated to **Norwegian Bokmål**, every figure reimagined in ONE consistent
-"warm studio sketch" illustration style, while preserving each sheet's layout,
+Rebuild each source image (handwritten notes, infographics, illustrated guides —
+any subject) as a beautiful, typeset **A4 PDF** with body text translated to
+**Norwegian Bokmål**, every figure reimagined in ONE consistent illustration style
+defined by the project's style anchor, while preserving each sheet's layout,
 structure, and the instructional meaning of every figure.
 
 ## Sheets vary
@@ -31,6 +31,8 @@ structure from the source itself, never assume a fixed format.
    retries, flag it for review — do not substitute the original.
 
 ## House style (ART DIRECTION — injected verbatim into every image prompt)
+This block is the project's default look and is meant to be EDITED per project,
+together with `style\anchor.png` (which dominates). Change both to change the look.
 "Warm hand-drawn studio-sketch illustration. Confident, slightly loose ink
 linework with soft gouache/watercolor washes. Earthy ceramics-studio palette:
 terracotta/rust as the primary accent, muted sage green and soft charcoal as
@@ -40,19 +42,27 @@ figure clearly, legibly, and spelled exactly as given; do not add text that isn'
 there. No border, no frame."
 
 ### Palette (used for BOTH the illustrations and the page)
-- Terracotta / rust (primary accent, titles): #B85C38
-- White (page + figure background):           #FFFFFF
-- Sage green (secondary accent):              #8C9A7B
-- Soft charcoal (body text, linework):        #3A3330
-- Faint sage tint (alternating row shading):  #ECEFE6
+Semantic roles, defined once in `styles\page.css`:
+- `--primary`   (titles, headings, accents)        default #B85C38
+- `--secondary` (sub-headings, step names)         default #8C9A7B
+- `--ink`       (body text, linework)              default #3A3330
+- `--page-bg`   (page + figure background)         default #FFFFFF
+- `--tint`      (alternating row shading)          default #ECEFE6
 
-### Fonts (Google Fonts)
-- Titles / headers: "Fraunces" (warm, characterful)
-- Body / bullets / labels: "Nunito" (clean), system-ui fallback
+### Fonts
+Defaults via Google Fonts: titles "Fraunces", body "Nunito" (system-ui fallback).
 
-The palette and fonts above are implemented once in `styles\page.css`; the
-layout-builder links that file and never hardcodes colors, fonts, or spacing, so
-every page is identical in style.
+### Optional per-project overrides (if present use, if absent ignore)
+`scripts\stylegen.py` runs at the start of every /rebuild and regenerates
+`styles\custom.css` from whatever exists under `style\`:
+- `style\fonts\title.ttf|otf` and/or `style\fonts\body.ttf|otf` — custom fonts
+  (a single font file with any name is used for BOTH roles).
+- `style\palette.json` — any subset of {"primary","secondary","ink","page_bg",
+  "tint"} as #RRGGBB (see style\palette.json.example). Omitted keys keep defaults.
+Every page links `page.css` then `custom.css`, so overrides win by cascade; with
+nothing present, custom.css is an empty stub and the defaults apply unchanged.
+The layout-builder never hardcodes colors, fonts, or spacing, so every page in a
+set is identical in style.
 
 ## Figure policy (every figure is remade)
 Every figure is restyled into the house look by repainting the original crop with

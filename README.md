@@ -23,6 +23,7 @@ A team of [Claude Code](https://docs.claude.com/en/docs/claude-code/overview) su
 - [Requirements](#requirements)
 - [Setup](#setup)
 - [Usage](#usage)
+- [Customization](#customization)
 - [Commands](#commands)
 - [Under the Hood](#under-the-hood)
 - [Folder Layout](#folder-layout)
@@ -40,6 +41,7 @@ A team of [Claude Code](https://docs.claude.com/en/docs/claude-code/overview) su
 - **Layout-aware** — infers each sheet's structure (steps, comparison columns, labeled diagram) instead of forcing a template.
 - **Two quality gates** — a visual/typography critic and a correctness reviewer that checks the rebuild against the original, figure by figure.
 - **Reproducible** — the look lives in a tracked style anchor and a shared stylesheet, portable across machines.
+- **Not just pottery** — the engine is domain-neutral: drop in any subject's sheets, swap the style anchor (and optionally fonts/palette, below) and the same pipeline produces a matching set.
 
 ---
 
@@ -162,6 +164,35 @@ This file sets PowerShell as the default shell and injects `OPENAI_API_KEY` into
    ```
 
 Finished PDFs land in `output/`.
+
+---
+
+## Customization
+
+Everything that defines the look lives under `style\` and follows one rule: **if present use it, if absent ignore it** (the defaults apply unchanged).
+
+| File | Controls | Behavior |
+|---|---|---|
+| `style\anchor.png` | Illustration style | Passed to gpt-image-2 on every figure; swap it (via `/style-anchor`) and the whole set's art changes. |
+| `style\fonts\title.ttf` / `.otf` | Title font | Used for titles/headings instead of the default (Fraunces). |
+| `style\fonts\body.ttf` / `.otf` | Body font | Used for body text instead of the default (Nunito). A single font file with any name is used for **both** roles. |
+| `style\palette.json` | Colors | Any subset of the five roles below; omitted keys keep their defaults. See `style\palette.json.example`. |
+
+The palette roles (all `#RRGGBB`):
+
+```json
+{
+  "primary":   "#B85C38",
+  "secondary": "#8C9A7B",
+  "ink":       "#3A3330",
+  "page_bg":   "#FFFFFF",
+  "tint":      "#ECEFE6"
+}
+```
+
+`primary` = titles/headings/accents · `secondary` = sub-headings/step names · `ink` = body text · `page_bg` = page and figure background · `tint` = row shading.
+
+At the start of every `/rebuild`, `scripts\stylegen.py` regenerates `styles\custom.css` from whatever is present (an empty stub when nothing is). Pages link `page.css` then `custom.css`, so overrides win by cascade. To re-theme an entire project for a different subject: replace the anchor, optionally drop in fonts and a palette, edit the ART DIRECTION block in `CLAUDE.md`, and `/rebuild all`.
 
 ---
 

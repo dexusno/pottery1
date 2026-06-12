@@ -11,7 +11,7 @@ crop's content exactly, repainted in the anchor's style. Always regenerate every
 crop, every run — never reuse, never output the original crop.
 
 Prompt per crop (reference inputs by index; change+preserve split):
-  [USE] "An instructional ceramics-handout illustration."
+  [USE] "An instructional handout illustration."
   [STYLE] <ART DIRECTION block from CLAUDE.md, verbatim>
   [TASK] "Restyle, not a new drawing. Reproduce Image 1 faithfully — same shapes,
     composition, proportions, counts, arrangement, and orientation. Keep the same
