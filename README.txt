@@ -1,7 +1,5 @@
-POTTERY -> NORWEGIAN PDF — scaffold (v27)
-v27: figures generate CONCURRENTLY (illustrate.py --batch, default 4 workers) and
-generation size scales to each crop; translator runs in parallel with the
-illustrator — figure-heavy sheets ~3-4x faster, same quality. New: /style-anchor
-palette suggests a palette.json from the anchor's colors (contrast-guarded, never
-overwrites). README now explains what each palette role visibly changes.
-Restart Claude Code after updating.
+SHEET2PDF — image sheets -> Norwegian A4 PDFs (scaffold v28)
+v28: project renamed Sheet2PDF; README de-pottery'd (generic tool, pottery kept
+only as the stated origin / default example look). Restart Claude Code after
+updating. If you rename the GitHub repo, update your remote:
+  git remote set-url origin https://github.com/dexusno/<new-name>.git

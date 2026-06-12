@@ -1,7 +1,13 @@
 # Changelog
 
-All notable changes to the pottery → Norwegian PDF pipeline. Newest first.
+All notable changes to the Sheet2PDF pipeline (image sheets → Norwegian A4 PDFs). Newest first.
 Versions track the scaffold iterations; all dated 2026-06-06 (built in one session).
+
+## v28 — 2026-06-12
+### Changed
+- Renamed the project Sheet2PDF and removed pottery-specific text from the README
+  (title, tagline, paths, notes). Pottery remains only as the stated origin and the
+  default example look. Scaffold zip folder renamed sheet2pdf_scaffold.
 
 ## v27 — 2026-06-12
 ### Added (speed: ~3-4x faster on figure-heavy sheets, no quality change)

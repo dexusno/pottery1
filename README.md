@@ -1,6 +1,6 @@
-# Pottery → Norwegian PDF rebuild
+# Sheet2PDF — image sheets → Norwegian A4 PDFs
 
-> Rebuild English ceramics-course image sheets into clean, typeset **Norwegian A4 PDFs** — text translated, every figure repainted by AI in one consistent hand.
+> Rebuild image sheets — handwritten notes, infographics, illustrated guides, any subject — into clean, typeset **Norwegian A4 PDFs**: text translated, every figure repainted by AI in one consistent hand.
 
 [![Built with Claude Code](https://img.shields.io/badge/built%20with-Claude%20Code-B85C38)](https://docs.claude.com/en/docs/claude-code/overview)
 [![Images](https://img.shields.io/badge/figures-gpt--image--2-412991)](https://platform.openai.com/)
@@ -42,7 +42,7 @@ A team of [Claude Code](https://docs.claude.com/en/docs/claude-code/overview) su
 - **Fast on dense sheets** — figures generate concurrently (a 25-figure sheet drops from ~1 hour to ~15–20 minutes), generation size scales to each figure's printed size, and translation runs while figures generate.
 - **Two quality gates** — a visual/typography critic and a correctness reviewer that checks the rebuild against the original, figure by figure.
 - **Reproducible** — the look lives in a tracked style anchor and a shared stylesheet, portable across machines.
-- **Not just pottery** — the engine is domain-neutral: drop in any subject's sheets, swap the style anchor (and optionally fonts/palette, below) and the same pipeline produces a matching set.
+- **Domain-neutral** — works for any subject: drop in your sheets, set a style anchor (and optionally fonts/palette, below) and the pipeline produces a matching set. Originally built for a ceramics course; that look ships as the default.
 
 ---
 
@@ -86,7 +86,7 @@ Polished A4 PDF (Norwegian)
 
 **`illustrator`** — Regenerates **every** figure. For each crop it calls **gpt-image-2** in edit mode with the original crop as the content to reproduce and `style\anchor.png` as the style to match, writing `<name>_v2.png` — all figures generate **concurrently** in one batch (default 4 workers; tune for your OpenAI rate limits). It reproduces the figure faithfully — same elements at the same visual weight, original text kept — changing only the medium. The original crop is input only and is never used as output. If the API errors (e.g. missing key), the run **stops loudly** instead of substituting the original.
 
-**`translator`** — Translates `extract.json` into `translated.json` as idiomatic Bokmål — title included — keeping a word in English where that is the form Norwegians actually use (an established anglicism), and converting imperial measurements to metric. Uncertain ceramics terms get a `note` flag.
+**`translator`** — Translates `extract.json` into `translated.json` as idiomatic Bokmål — title included — keeping a word in English where that is the form Norwegians actually use (an established anglicism), and converting imperial measurements to metric. Uncertain domain terms get a `note` flag.
 
 **`layout-builder`** — Rebuilds the page as `page.html` using **only** the shared stylesheet (no hardcoded styling), choosing a structure that matches the source. It embeds the regenerated `_v2.png` figures, keeps the title on one line, and scales content to fit and fill a single A4 portrait page, then renders the PDF + a preview PNG via headless Chromium.
 
@@ -152,7 +152,7 @@ This file sets PowerShell as the default shell and injects `OPENAI_API_KEY` into
 1. Put source images (`*.jpg` / `*.png`) in the project root.
 2. Launch Claude Code:
    ```powershell
-   cd D:\pottery
+   cd D:\<your-project>
    claude
    ```
    A more capable model gives better figure and layout judgment, but any model works.
@@ -259,7 +259,7 @@ The edit endpoint preserves content well; quality is `high` for label-heavy figu
 ## Folder Layout
 
 ```
-D:\pottery\
+D:\<your-project>\
   <source images>.jpg/.png        source sheets (gitignored)
   CLAUDE.md                       project brief / rules / art direction
   styles\page.css                 shared design system (palette, fonts, layouts)
@@ -284,7 +284,7 @@ D:\pottery\
 The API requires OpenAI **Organization Verification**. Complete it in your OpenAI account.
 
 **Figures come back as flat line-art or on a white box that doesn't match**
-Your `style/anchor.png` is the culprit — the model matches the anchor. Regenerate it with `/style-anchor` until you get a warm gouache/ink sample, then re-copy it to `style/anchor.png`.
+Your `style/anchor.png` is the culprit — the model matches the anchor. Regenerate it with `/style-anchor` until you get a sample in your intended style, then re-copy it to `style/anchor.png`.
 
 **Bash errors / backslash path failures**
 PowerShell isn't the default shell. Ensure `.claude/settings.json` has `"defaultShell": "powershell"` and `"CLAUDE_CODE_USE_POWERSHELL_TOOL": "1"`, then restart.
@@ -296,6 +296,6 @@ gpt-image-2 sometimes mangles text when restyling; `qa-reviewer` flags it for a 
 
 ## Notes
 
-- This repo is **public**. Source images and `output/` are gitignored because the course sheets are the instructor's content. Track a specific file with `git add -f <name>`.
+- This repo is **public**. Source images and `output/` are gitignored — source sheets often belong to someone else (a course, a client), so they stay local by default. Track a specific file with `git add -f <name>`.
 - `style/anchor.png` is tracked, so the look is portable across machines.
 - gpt-image-2 outputs carry an invisible SynthID watermark.
