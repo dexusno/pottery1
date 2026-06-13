@@ -22,8 +22,8 @@ otherwise EDIT mode (faithful restyle — the default, safe for instructional
 diagrams). Pass the mode to the illustrator; it sets each manifest job's `mode`.
 
 MODELS: read PREMIUM MODEL and WORKFLOW MODEL from CLAUDE.md. On EVERY subagent
-delegation below, pass the model parameter explicitly: extractor, layout-qc, and
-qa-reviewer get the PREMIUM model; illustrator, translator, and layout-builder get
+delegation below, pass the model parameter explicitly: extractor, translator, layout-qc, and
+qa-reviewer get the PREMIUM model; illustrator and layout-builder get
 the WORKFLOW model. (`inherit` = pass no model parameter.)
 
 Before the first image: run `python scripts\stylegen.py` (regenerates
