@@ -123,7 +123,7 @@ Figure regeneration uses the **gpt-image-2** API (everything else — Claude Cod
 | Component | Required | Notes |
 |---|---|---|
 | **Claude Code** | Yes | Any current version — run `claude update` to stay up to date |
-| **Python 3.9+** | Yes | `pip install pillow playwright openai` then `playwright install chromium` |
+| **Python 3.9+** | Yes | `pip install pillow playwright openai pypdf` then `playwright install chromium` |
 | **OpenAI API key** | Yes | For gpt-image-2; needs OpenAI **Organization Verification**. Without a valid key the run stops with an error — it does **not** fall back to the original drawings. |
 | **A style anchor** | Yes | One approved reference image at `style/anchor.png` (create with `/style-anchor`) |
 

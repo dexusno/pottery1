@@ -9,8 +9,10 @@ effort: high
 Judge `work/<stem>/page.png` as a finished design (not against the original). Hold a
 high bar; these checks apply to any layout. Fail on any clear violation:
 
-1. **A4 fit** — all content sits on one A4 portrait page; nothing clipped, overflowing
-   a margin, or pushed to a second page.
+1. **A4 fit** — ALL content sits on exactly ONE A4 portrait page; nothing clipped,
+   nothing overflowing a margin or pushed to a second page. (The renderer enforces
+   this and fails on overflow — but also check the PNG isn't suspiciously tall with
+   a stranded block at the bottom, which signals content was about to spill.)
 2. **Balance** — content fills the page; no large empty band; figures are prominent
    (not postage stamps); body text is comfortably readable at print size.
 3. **Alignment & spacing** — consistent grid, even gutters/margins, no overlaps,

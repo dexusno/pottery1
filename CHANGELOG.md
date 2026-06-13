@@ -3,6 +3,25 @@
 All notable changes to the Sheet2PDF pipeline (image sheets → translated A4 PDFs). Newest first.
 Versions track the scaffold iterations; all dated 2026-06-06 (built in one session).
 
+## v36 — 2026-06-13
+### Fixed (the recurring 2-page bug — now actually fixed, not just diagnosed)
+- render_pdf.py ENFORCES single-page output: after rendering it measures content
+  height vs one A4 page and, if content genuinely spills onto a 2nd page (beyond a
+  ~30px sub-pixel tolerance so visually-full pages don't false-fail), it deletes the
+  bad PDF and exits non-zero with a clear message. A spilled layout can no longer
+  silently ship. `--allow-multipage` overrides. Adds a `pypdf` dependency (with a
+  regex fallback if absent).
+- layout-builder: on a `RENDER FAILED: content overflows`, shrink figures/type via
+  page.css variables and re-render until it fits one page.
+- layout-qc: A4-fit check sharpened (exactly one page; watch for a tall PNG with a
+  stranded bottom block).
+- qa-reviewer: added an explicit **single A4 page** check (#6).
+### Note
+- Root cause of the bug was three gaps identified last session: layout-qc judged the
+  full-page PNG (blind to pagination), qa-reviewer had no page-count rule, and
+  render_pdf knew the count but didn't act. All three are now closed; the render-level
+  enforcement is the decisive, deterministic one.
+
 ## v35 — 2026-06-13
 ### Added
 - `/rebuild … --generate`: a per-run figure mode. Default (EDIT, unchanged) faithfully

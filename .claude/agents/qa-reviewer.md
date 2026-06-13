@@ -38,6 +38,8 @@ Fail on any clear violation:
    finish on a plain white background. Flag any that came back as flat line-art or
    in the wrong tone.
 5. **Layout fidelity** — order and label-to-figure relationships match the original.
+6. **Single A4 page** — the deliverable is exactly one A4 page (no content spilled
+   onto a second page). If not, FAIL and send back to the layout-builder.
 
 Write `work/<stem>/qa.md`: first line `RESULT: PASS` or `RESULT: FAIL`, then a short
 numbered list (figure/line, what's wrong vs the original, the fix). If a figure is

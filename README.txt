@@ -1,6 +1,6 @@
-SHEET2PDF — image sheets -> translated A4 PDFs (scaffold v35)
-v35: new figure mode. /rebuild --generate re-interprets figures IN the anchor's
-style (refined redraw) instead of faithfully restyling the original crude drawing.
-Default (no flag) = edit mode, unchanged. Sizing/layout identical in both modes.
-Try it on a decorative sheet: /rebuild aesthetics_potter.JPG --generate
+SHEET2PDF — image sheets -> translated A4 PDFs (scaffold v36)
+v36: the recurring 2-page bug is FIXED. render_pdf.py now enforces a single A4 page
+(deletes the PDF and fails loudly on real overflow; --allow-multipage to override),
+and layout-builder/layout-qc/qa-reviewer all enforce single-page too.
+NEW DEPENDENCY: pip install pypdf --break-system-packages
 Restart Claude Code after updating.

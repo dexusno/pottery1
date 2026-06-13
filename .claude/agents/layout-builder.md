@@ -41,5 +41,10 @@ Build `work/<stem>/page.html`:
   marked items out into a separately-styled block.
 - Do not add dividers, rules, or ornaments that aren't in the source.
 
-Render: `python scripts/render_pdf.py work/<stem>/page.html output/<stem>.pdf --png work/<stem>/page.png`
-Apply any layout-qc fixes and re-render until it passes. Report the PDF path.
+Render: `python scripts\render_pdf.py work\<stem>\page.html output\<stem>.pdf --png work\<stem>\page.png`
+The renderer ENFORCES one A4 page: if it prints `RENDER FAILED: content overflows`,
+the layout spilled onto a second page — shrink figures/type via the page.css
+variables (`--fig-hero`, `--fig-step`, `--fs-*`) and/or tighten spacing so all
+content fits ONE page, then re-render. Do not pass --allow-multipage. Apply any
+layout-qc fixes and re-render until it both passes the renderer and passes QC.
+Report the PDF path.
