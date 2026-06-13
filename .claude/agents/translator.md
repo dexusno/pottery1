@@ -3,7 +3,7 @@ name: translator
 description: Translates an extract.json into the TARGET LANGUAGE set in CLAUDE.md (or keeps the original) and applies the UNITS setting. Use after extraction, before layout.
 tools: Read, Write
 model: inherit
-effort: medium
+effort: high
 ---
 
 You translate course-sheet text into the TARGET LANGUAGE set in CLAUDE.md, and
