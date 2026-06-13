@@ -14,9 +14,9 @@ The translator and qa-reviewer read these two settings.
 PREMIUM MODEL: opus
 WORKFLOW MODEL: sonnet
 
-- PREMIUM runs the judgment-heavy agents: **extractor, layout-qc, qa-reviewer**
+- PREMIUM runs the judgment-heavy agents: **extractor, translator, layout-qc, qa-reviewer**
   (careful vision and critique — where output quality is enforced).
-- WORKFLOW runs the mechanical agents: **illustrator, translator, layout-builder**
+- WORKFLOW runs the mechanical agents: **illustrator, layout-builder**
   (templated prompts, translation, HTML assembly).
 - Values: a model alias (`opus`, `sonnet`, `haiku`, `fable`), a full model ID
   (e.g. `claude-opus-4-8`), or `inherit` to use the session's model.
