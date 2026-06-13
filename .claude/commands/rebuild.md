@@ -16,6 +16,11 @@ Always ignore files under work\, output\, scripts\, and .claude\.
 If ignore.txt exists at the root, treat each non-empty line that does not start
 with # as a filename to skip (applies to the no-arg run only).
 
+MODE: if $ARGUMENTS contains `--generate`, the illustrator runs in GENERATE mode
+(re-interpret each subject in the anchor's style — looser, for decorative figures);
+otherwise EDIT mode (faithful restyle — the default, safe for instructional
+diagrams). Pass the mode to the illustrator; it sets each manifest job's `mode`.
+
 MODELS: read PREMIUM MODEL and WORKFLOW MODEL from CLAUDE.md. On EVERY subagent
 delegation below, pass the model parameter explicitly: extractor, layout-qc, and
 qa-reviewer get the PREMIUM model; illustrator, translator, and layout-builder get

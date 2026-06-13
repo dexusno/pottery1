@@ -3,6 +3,19 @@
 All notable changes to the Sheet2PDF pipeline (image sheets → translated A4 PDFs). Newest first.
 Versions track the scaffold iterations; all dated 2026-06-06 (built in one session).
 
+## v35 — 2026-06-13
+### Added
+- `/rebuild … --generate`: a per-run figure mode. Default (EDIT, unchanged) faithfully
+  restyles each crop in place — safe for instructional diagrams. GENERATE re-interprets
+  the subject in the anchor's STYLE (medium, linework, refinement/realism) instead of
+  tracing the crude original, for decorative/illustrative figures. Composition stays
+  guided (same elements/arrangement) and image sizing/layout are computed identically
+  in both modes, so figures still fit the document — only the rendering changes.
+  qa-reviewer's content check is mode-aware: in GENERATE mode it checks subject + key
+  elements + rough arrangement, not exact element preservation (so refined redraws
+  don't false-fail). Threaded crop→manifest (`"mode"` per job, default edit)→
+  illustrate.py; edit mode is byte-for-byte unchanged.
+
 ## v34 — 2026-06-13
 ### Fixed
 - illustrate.py aspect_size(): small/wide/tall crops could produce sizes below

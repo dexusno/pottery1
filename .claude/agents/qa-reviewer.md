@@ -18,12 +18,17 @@ Fail on any clear violation:
    the text reads naturally in the target language (or is UNCHANGED when the target
    is `original`); subject-area terms are correct; units follow the UNITS setting.
    (Text inside a figure always stays in the source language and units.)
-3. **Figures (content)** — each remade figure depicts the SAME content as its
-   original: same objects, counts, action/stage, arrangement, and orientation, with
-   elements at the same visual weight. Flag elements that are added, dropped, or
-   over-emphasized/enlarged vs the original, and any scene that was split into
-   separate figures or invented pieces. `label_critical` figures must match the
-   `preserve` list exactly.
+3. **Figures (content)** — judge by the run's mode:
+   - EDIT mode (default): each figure depicts the SAME content as its original —
+     same objects, counts, action/stage, arrangement, orientation, at the same
+     visual weight. Flag anything added, dropped, over-emphasized, or split, and any
+     invented pieces. `label_critical` figures must match the `preserve` list exactly.
+   - GENERATE mode: the figure is a re-interpretation, so refined proportions and
+     rendering are EXPECTED and fine. Check only that it depicts the right SUBJECT
+     with the same key elements present (none dropped or added) and roughly the same
+     arrangement — do not flag improved realism or redrawn detail. (label_critical
+     figures should normally use EDIT mode; if one was generated, still require its
+     `preserve` list.)
    - **Figure text is EXPECTED:** if the original figure contains text, the remake
      should reproduce it. Text that matches the original is correct — do NOT flag it
      as "added" or "invented." Only flag figure text that is NOT in the original

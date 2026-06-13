@@ -88,19 +88,27 @@ def write_b64(item, out_path):
     out_path.write_bytes(base64.b64decode(b64))
 
 
-def edit_one(client, content_path, out_path, prompt, quality, style_ref, size=None):
-    """One restyle call. Returns (out_path, size, seconds). Raises on failure."""
+def edit_one(client, content_path, out_path, prompt, quality, style_ref,
+             size=None, mode="edit"):
+    """One figure call. mode='edit' restyles the crop in place (faithful);
+    mode='generate' re-interprets the subject in the anchor's style using the
+    crop + anchor as references. Size is computed identically for both modes so
+    figures fit the document the same way. Returns (out_path, size, seconds)."""
     content_path, out_path = Path(content_path), Path(out_path)
-    size = size or aspect_size(content_path)
-    files = [open(content_path, "rb")]
+    size = size or aspect_size(content_path)   # same sizing for both modes
     sr = Path(style_ref) if style_ref else None
+    files = [open(content_path, "rb")]
     if sr and sr.exists():
         files.append(open(sr, "rb"))
     image_arg = files if len(files) > 1 else files[0]
+    # Both modes use the edit endpoint with crop + anchor as references; what
+    # differs is the PROMPT the illustrator supplies (edit = faithful restyle of
+    # the crop; generate = re-interpret the subject in the anchor's style). `mode`
+    # is carried for logging/clarity and future divergence.
     t0 = time.time()
     try:
         resp = client.images.edit(model="gpt-image-2", image=image_arg,
-                                  prompt=prompt, size=size, quality=quality)
+                                   prompt=prompt, size=size, quality=quality)
     finally:
         for f in files:
             f.close()
@@ -133,14 +141,15 @@ def run_batch(client, manifest_path, workers, dry_run):
         for j in jobs:
             size = j.get("size") or aspect_size(j["content"])
             print(f"  {j['content']} -> {j['out']}  "
-                  f"(size={size}, quality={j.get('quality', 'medium')}, "
+                  f"(mode={j.get('mode', 'edit')}, size={size}, "
+                  f"quality={j.get('quality', 'medium')}, "
                   f"style_ref={j.get('style_ref') or '-'})")
         return
     failures = []
     with ThreadPoolExecutor(max_workers=workers) as pool:
         futs = {pool.submit(edit_one, client, j["content"], j["out"], j["prompt"],
                             j.get("quality", "medium"), j.get("style_ref"),
-                            j.get("size")): j for j in jobs}
+                            j.get("size"), j.get("mode", "edit")): j for j in jobs}
         for fut in as_completed(futs):
             j = futs[fut]
             try:

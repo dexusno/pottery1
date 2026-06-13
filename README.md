@@ -221,6 +221,7 @@ At the start of every `/rebuild`, `scripts\stylegen.py` regenerates `styles\cust
 | `/rebuild` | Process all pending images. |
 | `/rebuild <name…>` | Process specific images (forced re-run). |
 | `/rebuild all` | Full refresh of the whole set. |
+| `/rebuild … --generate` | Re-interpret each figure in the anchor's style (refined redraw) instead of faithfully restyling the original. Looser; best for decorative/illustrative sheets, not label-critical diagrams. Sizing/layout stay tight either way. |
 | `/progress` | Table of done / pending / QA result / ignored. (Named to avoid shadowing Claude Code's built-in `/status`.) |
 
 ---
